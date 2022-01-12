@@ -58,6 +58,25 @@ class SeedParameterTests {
         assertThat(actualInts).isEqualTo(expectedInts);
     }
 
+    @Test
+    void generatedObjectsWithNoSeedShouldNotBeTheSame(){
+        EasyRandom randomizer1 = new EasyRandom();
+        EasyRandom randomizer2 = new EasyRandom();
+
+        String string1 = randomizer1.nextObject(String.class);
+        String string2 = randomizer2.nextObject(String.class);
+
+        Person person1 = randomizer1.nextObject(Person.class);
+        Person person2 = randomizer2.nextObject(Person.class);
+
+        int[] ints1 = randomizer1.nextObject(int[].class);
+        int[] ints2 = randomizer2.nextObject(int[].class);
+
+        assertThat(string1).isNotEqualTo(string2);
+        assertThat(person1).isNotEqualTo(person2);
+        assertThat(ints1).isNotEqualTo(ints2);
+    }
+
     private Person buildExpectedPerson() {
         Person expectedPerson = new Person();
 

@@ -45,11 +45,6 @@ import static java.time.ZonedDateTime.of;
 public class EasyRandomParameters {
 
     /**
-     * Default seed.
-     */
-    public static final long DEFAULT_SEED = 123L;
-
-    /**
      * Default charset for Strings.
      */
     public static final Charset DEFAULT_CHARSET = StandardCharsets.US_ASCII;
@@ -117,7 +112,7 @@ public class EasyRandomParameters {
      * Create a new {@link EasyRandomParameters} with default values.
      */
     public EasyRandomParameters() {
-        seed = DEFAULT_SEED;
+        seed = new Random().nextLong();
         charset = DEFAULT_CHARSET;
         scanClasspathForConcreteTypes = false;
         overrideDefaultInitialization = false;

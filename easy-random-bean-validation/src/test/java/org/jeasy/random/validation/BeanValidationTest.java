@@ -254,9 +254,9 @@ class BeanValidationTest {
         // assertThat(bean.getEventDate()).isEqualTo("2017-07-22T13:20:35.628"); // same for eventLocalDateTime
         assertThat(bean.getMaxQuantity()).isEqualTo(-2055951745);
         assertThat(bean.getMinQuantity()).isEqualTo(91531906);
-        assertThat(bean.getMaxDiscount()).isEqualTo(new BigDecimal(1.2786858993971550457757757612853311002254486083984375));
-        assertThat(bean.getMinDiscount()).isEqualTo(new BigDecimal(7662282876638370609146101740543801632384371011755725427644785896281033154465107481014236865090602870006608143292003443098160947481248487711461114361337135608579588927391230902925850523644737673724379044725003237691291118781433336121334962263919251188630152674215174880065707256545268445171714648124229156864D));
-        assertThat(bean.getDiscount()).isEqualTo(new BigDecimal(0.182723708049134681008496272625052370131015777587890625));
+        assertThat(bean.getMaxDiscount()).isEqualTo(new BigDecimal("1.2786858993971550457757757612853311002254486083984375"));
+        assertThat(bean.getMinDiscount()).isEqualTo(new BigDecimal("7662282876638370609146101740543801632384371011755725427644785896281033154465107481014236865090602870006608143292003443098160947481248487711461114361337135608579588927391230902925850523644737673724379044725003237691291118781433336121334962263919251188630152674215174880065707256545268445171714648124229156864"));
+        assertThat(bean.getDiscount()).isEqualTo(new BigDecimal("0.182723708049134681008496272625052370131015777587890625"));
         assertThat(bean.getMinQuantity()).isEqualTo(91531906);
         assertThat(bean.getBriefMessage()).isEqualTo("tg");
         assertThat(bean.getRegexString()).isEqualTo("vuna");
@@ -284,7 +284,11 @@ class BeanValidationTest {
         // given
         class Salary {
             @Digits(integer = 2, fraction = 2) // OSS developer salary.. :-)
-            private BigDecimal amount;
+            private final BigDecimal amount;
+
+            Salary(BigDecimal amount) {
+                this.amount = amount;
+            }
         }
 
         EasyRandomParameters parameters = new EasyRandomParameters()
