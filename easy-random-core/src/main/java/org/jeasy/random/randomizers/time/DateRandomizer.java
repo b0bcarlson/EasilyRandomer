@@ -23,7 +23,7 @@
  */
 package org.jeasy.random.randomizers.time;
 
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.randomizers.range.DateRangeRandomizer;
 
@@ -45,7 +45,7 @@ public class DateRandomizer implements Randomizer<Date> {
      * Create a new {@link DateRandomizer}.
      */
     public DateRandomizer() {
-        delegate = new DateRangeRandomizer(toDate(EasyRandomParameters.DEFAULT_DATES_RANGE.getMin()), toDate(EasyRandomParameters.DEFAULT_DATES_RANGE.getMax()));
+        delegate = new DateRangeRandomizer(toDate(EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMin()), toDate(EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMax()));
     }
 
     /**
@@ -54,7 +54,7 @@ public class DateRandomizer implements Randomizer<Date> {
      * @param seed initial seed
      */
     public DateRandomizer(final long seed) {
-        delegate = new DateRangeRandomizer(toDate(EasyRandomParameters.DEFAULT_DATES_RANGE.getMin()), toDate(EasyRandomParameters.DEFAULT_DATES_RANGE.getMax()), seed);
+        delegate = new DateRangeRandomizer(toDate(EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMin()), toDate(EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMax()), seed);
     }
 
     @Override

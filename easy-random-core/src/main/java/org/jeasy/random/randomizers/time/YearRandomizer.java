@@ -23,7 +23,7 @@
  */
 package org.jeasy.random.randomizers.time;
 
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
 
@@ -42,7 +42,7 @@ public class YearRandomizer implements Randomizer<Year> {
      * Create a new {@link YearRandomizer}.
      */
     public YearRandomizer() {
-        yearRandomizer = new IntegerRangeRandomizer(EasyRandomParameters.DEFAULT_DATES_RANGE.getMin().getYear(), EasyRandomParameters.DEFAULT_DATES_RANGE.getMax().getYear());
+        yearRandomizer = new IntegerRangeRandomizer(EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMin().getYear(), EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMax().getYear());
     }
 
     /**
@@ -51,7 +51,7 @@ public class YearRandomizer implements Randomizer<Year> {
      * @param seed initial seed
      */
     public YearRandomizer(final long seed) {
-        yearRandomizer = new IntegerRangeRandomizer(EasyRandomParameters.DEFAULT_DATES_RANGE.getMin().getYear(), EasyRandomParameters.DEFAULT_DATES_RANGE.getMax().getYear(), seed);
+        yearRandomizer = new IntegerRangeRandomizer(EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMin().getYear(), EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMax().getYear(), seed);
     }
 
     @Override

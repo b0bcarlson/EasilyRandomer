@@ -39,10 +39,10 @@ import static org.jeasy.random.util.ReflectionUtils.*;
  */
 class CollectionPopulator {
 
-    private final EasyRandom easyRandom;
+    private final EasilyRandomer easilyRandomer;
 
-    CollectionPopulator(final EasyRandom easyRandom) {
-        this.easyRandom = easyRandom;
+    CollectionPopulator(final EasilyRandomer easilyRandomer) {
+        this.easilyRandomer = easilyRandomer;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -63,7 +63,7 @@ class CollectionPopulator {
             Type type = parameterizedType.getActualTypeArguments()[0];
             if (isPopulatable(type)) {
                 for (int i = 0; i < randomSize; i++) {
-                    Object item = easyRandom.doPopulateBean((Class<?>) type, context);
+                    Object item = easilyRandomer.doPopulateBean((Class<?>) type, context);
                     collection.add(item);
                 }
 
@@ -73,8 +73,8 @@ class CollectionPopulator {
 
     }
 
-    private int getRandomCollectionSize(EasyRandomParameters parameters) {
-        EasyRandomParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
-        return new IntegerRangeRandomizer(collectionSizeRange.getMin(), collectionSizeRange.getMax(), easyRandom.nextLong()).getRandomValue();
+    private int getRandomCollectionSize(EasilyRandomerParameters parameters) {
+        EasilyRandomerParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
+        return new IntegerRangeRandomizer(collectionSizeRange.getMin(), collectionSizeRange.getMax(), easilyRandomer.nextLong()).getRandomValue();
     }
 }

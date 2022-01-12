@@ -25,8 +25,8 @@ package org.jeasy.random.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import org.jeasy.random.beans.Person;
@@ -38,11 +38,11 @@ class StringLengthRangeParameterTests {
         // Given
         int minStringLength = 3;
         int maxStringLength = 50;
-        EasyRandomParameters parameters = new EasyRandomParameters().stringLengthRange(minStringLength, maxStringLength);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().stringLengthRange(minStringLength, maxStringLength);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // Then
         assertThat(person.getName().length()).isBetween(minStringLength, maxStringLength);

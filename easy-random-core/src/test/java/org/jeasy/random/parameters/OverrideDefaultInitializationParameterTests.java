@@ -25,8 +25,8 @@ package org.jeasy.random.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import org.jeasy.random.beans.BeanWithDefaultFieldValues;
@@ -36,11 +36,11 @@ class OverrideDefaultInitializationParameterTests {
     @Test
     void whenOverrideDefaultInitializationParameterIsFalse_thenShouldKeepDefaultFieldValues() {
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters().overrideDefaultInitialization(false);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().overrideDefaultInitialization(false);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        BeanWithDefaultFieldValues bean = easyRandom.nextObject(BeanWithDefaultFieldValues.class);
+        BeanWithDefaultFieldValues bean = easilyRandomer.nextObject(BeanWithDefaultFieldValues.class);
 
         // Then
         assertThat(bean.getDefaultNonNullValue()).isEqualTo("default");
@@ -50,11 +50,11 @@ class OverrideDefaultInitializationParameterTests {
     @Test
     void whenOverrideDefaultInitializationParameterIsTrue_thenShouldRandomizeFields() {
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters().overrideDefaultInitialization(true);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().overrideDefaultInitialization(true);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        BeanWithDefaultFieldValues bean = easyRandom.nextObject(BeanWithDefaultFieldValues.class);
+        BeanWithDefaultFieldValues bean = easilyRandomer.nextObject(BeanWithDefaultFieldValues.class);
 
         // Then
         assertThat(bean.getDefaultNonNullValue()).isNotEqualTo("default").isNotNull();
@@ -64,7 +64,7 @@ class OverrideDefaultInitializationParameterTests {
     @Test
     void shouldNotOverrideDefaultFieldValuesByDefault() {
         // When
-        BeanWithDefaultFieldValues bean = new EasyRandom().nextObject(BeanWithDefaultFieldValues.class);
+        BeanWithDefaultFieldValues bean = new EasilyRandomer().nextObject(BeanWithDefaultFieldValues.class);
 
         // Then
         assertThat(bean.getDefaultNonNullValue()).isEqualTo("default");

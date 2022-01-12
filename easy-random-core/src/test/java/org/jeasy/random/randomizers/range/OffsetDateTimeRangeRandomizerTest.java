@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.OffsetDateTime;
 
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,8 +38,8 @@ class OffsetDateTimeRangeRandomizerTest extends AbstractRangeRandomizerTest<Offs
 
     @BeforeEach
     void setUp() {
-        minOffsetDateTime = EasyRandomParameters.DEFAULT_DATES_RANGE.getMin().toOffsetDateTime().minusYears(50);
-        maxOffsetDateTime = EasyRandomParameters.DEFAULT_DATES_RANGE.getMax().toOffsetDateTime().plusYears(50);
+        minOffsetDateTime = EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMin().toOffsetDateTime().minusYears(50);
+        maxOffsetDateTime = EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMax().toOffsetDateTime().plusYears(50);
         randomizer = new OffsetDateTimeRangeRandomizer(minOffsetDateTime, maxOffsetDateTime);
     }
 

@@ -30,8 +30,8 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.util.Date;
 
 import org.assertj.core.api.Assertions;
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import org.jeasy.random.ObjectCreationException;
@@ -48,22 +48,22 @@ import org.jeasy.random.beans.SocialPerson;
 
 class ScanClasspathForConcreteTypesParameterTests {
 
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     @Test
     void whenScanClasspathForConcreteTypesIsDisabled_thenShouldFailToPopulateInterfacesAndAbstractClasses() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(false);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(false);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        assertThatThrownBy(() -> easyRandom.nextObject(Mamals.class)).isInstanceOf(ObjectCreationException.class);
+        assertThatThrownBy(() -> easilyRandomer.nextObject(Mamals.class)).isInstanceOf(ObjectCreationException.class);
     }
 
     @Test
     void whenScanClasspathForConcreteTypesIsEnabled_thenShouldPopulateInterfacesAndAbstractClasses() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        Mamals mamals = easyRandom.nextObject(Mamals.class);
+        Mamals mamals = easilyRandomer.nextObject(Mamals.class);
 
         assertThat(mamals.getMamal()).isOfAnyClassIn(Human.class, Ape.class, Person.class, SocialPerson.class);
         assertThat(mamals.getMamalImpl()).isOfAnyClassIn(Human.class, Ape.class, Person.class, SocialPerson.class);
@@ -71,10 +71,10 @@ class ScanClasspathForConcreteTypesParameterTests {
 
     @Test
     void whenScanClasspathForConcreteTypesIsEnabled_thenShouldPopulateConcreteTypesForFieldsWithGenericParameters() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        ComparableBean comparableBean = easyRandom.nextObject(ComparableBean.class);
+        ComparableBean comparableBean = easilyRandomer.nextObject(ComparableBean.class);
 
         assertThat(comparableBean.getDateComparable()).isOfAnyClassIn(ComparableBean.AlwaysEqual.class, Date.class);
     }
@@ -82,11 +82,11 @@ class ScanClasspathForConcreteTypesParameterTests {
     @Test
     void whenScanClasspathForConcreteTypesIsEnabled_thenShouldPopulateAbstractTypesWithConcreteSubTypes() {
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        Bar bar = easyRandom.nextObject(Bar.class);
+        Bar bar = easilyRandomer.nextObject(Bar.class);
 
         // Then
         assertThat(bar).isNotNull();
@@ -98,11 +98,11 @@ class ScanClasspathForConcreteTypesParameterTests {
     @Test
     void whenScanClasspathForConcreteTypesIsEnabled_thenShouldPopulateFieldsOfAbstractTypeWithConcreteSubTypes() {
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        Foo foo = easyRandom.nextObject(Foo.class);
+        Foo foo = easilyRandomer.nextObject(Foo.class);
 
         // Then
         assertThat(foo).isNotNull();
@@ -112,10 +112,10 @@ class ScanClasspathForConcreteTypesParameterTests {
 
     @Test
     void whenScanClasspathForConcreteTypesIsEnabled_thenShouldPopulateAbstractEnumeration() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        ClassUsingAbstractEnum randomValue = easyRandom.nextObject(ClassUsingAbstractEnum.class);
+        ClassUsingAbstractEnum randomValue = easilyRandomer.nextObject(ClassUsingAbstractEnum.class);
 
         then(randomValue.getTestEnum()).isNotNull();
     }
@@ -124,11 +124,11 @@ class ScanClasspathForConcreteTypesParameterTests {
 
     @Test
     void testScanClasspathForConcreteTypes_whenConcreteTypeIsAnInnerClass() {
-        EasyRandomParameters parameters =
-                new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters =
+                new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
-        Foobar foobar = easyRandom.nextObject(Foobar.class);
+        Foobar foobar = easilyRandomer.nextObject(Foobar.class);
 
         Assertions.assertThat(foobar).isNotNull();
         Assertions.assertThat(foobar.getToto()).isNotNull();

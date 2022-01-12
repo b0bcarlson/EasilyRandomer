@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import org.jeasy.random.beans.TimeBean;
@@ -41,10 +41,10 @@ class DateTimeRangeParameterTests {
         // Given
         LocalDate minDate = LocalDate.of(2016, 1, 1);
         LocalDate maxDate = LocalDate.of(2016, 1, 31);
-        EasyRandomParameters parameters = new EasyRandomParameters().dateRange(minDate, maxDate);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().dateRange(minDate, maxDate);
 
         // When
-        TimeBean timeBean = new EasyRandom(parameters).nextObject(TimeBean.class);
+        TimeBean timeBean = new EasilyRandomer(parameters).nextObject(TimeBean.class);
 
         // Then
         assertThat(timeBean.getLocalDate()).isAfterOrEqualTo(minDate).isBeforeOrEqualTo(maxDate);
@@ -55,10 +55,10 @@ class DateTimeRangeParameterTests {
         // Given
         LocalTime minTime = LocalTime.of(15, 0, 0);
         LocalTime maxTime = LocalTime.of(18, 0, 0);
-        EasyRandomParameters parameters = new EasyRandomParameters().timeRange(minTime, maxTime);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().timeRange(minTime, maxTime);
 
         // When
-        TimeBean timeBean = new EasyRandom(parameters).nextObject(TimeBean.class);
+        TimeBean timeBean = new EasilyRandomer(parameters).nextObject(TimeBean.class);
 
         // Then
         assertThat(timeBean.getLocalTime()).isAfterOrEqualTo(minTime).isBeforeOrEqualTo(maxTime);

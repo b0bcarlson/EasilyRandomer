@@ -24,7 +24,7 @@
 package org.jeasy.random.randomizers.registry;
 
 import org.jeasy.random.annotation.Priority;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerRegistry;
 import org.jeasy.random.randomizers.range.InstantRangeRandomizer;
@@ -58,7 +58,7 @@ public class TimeRandomizerRegistry implements RandomizerRegistry {
     private final Map<Class<?>, Randomizer<?>> randomizers = new HashMap<>();
 
     @Override
-    public void init(EasyRandomParameters parameters) {
+    public void init(EasilyRandomerParameters parameters) {
         long seed = parameters.getSeed();
         LocalDate minDate = parameters.getDateRange().getMin();
         LocalDate maxDate = parameters.getDateRange().getMax();

@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.parameters;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.beans.Address;
 import org.jeasy.random.beans.Gender;
 import org.jeasy.random.beans.Person;
@@ -40,17 +40,17 @@ class SeedParameterTests {
     @Test
     void generatedObjectShouldBeAlwaysTheSameForTheSameSeed() {
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters().seed(SEED);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().seed(SEED);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         String expectedString = "eOMtThyhVNLWUZNRcBaQKxI";
         Person expectedPerson = buildExpectedPerson();
         int[] expectedInts = buildExpectedInts();
 
         // When
-        String actualString = easyRandom.nextObject(String.class);
-        Person actualPerson = easyRandom.nextObject(Person.class);
-        int[] actualInts = easyRandom.nextObject(int[].class);
+        String actualString = easilyRandomer.nextObject(String.class);
+        Person actualPerson = easilyRandomer.nextObject(Person.class);
+        int[] actualInts = easilyRandomer.nextObject(int[].class);
 
         // Then
         assertThat(actualString).isEqualTo(expectedString);
@@ -60,8 +60,8 @@ class SeedParameterTests {
 
     @Test
     void generatedObjectsWithNoSeedShouldNotBeTheSame(){
-        EasyRandom randomizer1 = new EasyRandom();
-        EasyRandom randomizer2 = new EasyRandom();
+        EasilyRandomer randomizer1 = new EasilyRandomer();
+        EasilyRandomer randomizer2 = new EasilyRandomer();
 
         String string1 = randomizer1.nextObject(String.class);
         String string2 = randomizer2.nextObject(String.class);

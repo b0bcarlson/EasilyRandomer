@@ -34,10 +34,10 @@ import java.lang.reflect.Array;
  */
 class ArrayPopulator {
 
-    private final EasyRandom easyRandom;
+    private final EasilyRandomer easilyRandomer;
 
-    ArrayPopulator(final EasyRandom easyRandom) {
-        this.easyRandom = easyRandom;
+    ArrayPopulator(final EasilyRandomer easilyRandomer) {
+        this.easilyRandomer = easilyRandomer;
     }
 
     Object getRandomArray(final Class<?> fieldType, final RandomizationContext context) {
@@ -45,14 +45,14 @@ class ArrayPopulator {
         int randomSize = getRandomArraySize(context.getParameters());
         Object result = Array.newInstance(componentType, randomSize);
         for (int i = 0; i < randomSize; i++) {
-            Object randomElement = easyRandom.doPopulateBean(componentType, context);
+            Object randomElement = easilyRandomer.doPopulateBean(componentType, context);
             Array.set(result, i, randomElement);
         }
         return result;
     }
 
-    private int getRandomArraySize(EasyRandomParameters parameters) {
-        EasyRandomParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
-        return new IntegerRangeRandomizer(collectionSizeRange.getMin(), collectionSizeRange.getMax(), easyRandom.nextLong()).getRandomValue();
+    private int getRandomArraySize(EasilyRandomerParameters parameters) {
+        EasilyRandomerParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
+        return new IntegerRangeRandomizer(collectionSizeRange.getMin(), collectionSizeRange.getMax(), easilyRandomer.nextLong()).getRandomValue();
     }
 }

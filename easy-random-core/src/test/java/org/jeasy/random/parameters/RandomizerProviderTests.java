@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.parameters;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerContext;
 import org.jeasy.random.api.RandomizerProvider;
@@ -41,7 +41,7 @@ class RandomizerProviderTests {
     @Test
     void testCustomRandomizerProvider() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomizerProvider(new RandomizerProvider() {
 
                     private Set<RandomizerRegistry> randomizerRegistries;
@@ -76,10 +76,10 @@ class RandomizerProviderTests {
                     }
                 })
                 .randomizationDepth(2);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Foo foo = easyRandom.nextObject(Foo.class);
+        Foo foo = easilyRandomer.nextObject(Foo.class);
 
         // then
         assertThat(foo).isNotNull();

@@ -31,8 +31,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import org.jeasy.random.beans.Person;
@@ -44,11 +44,11 @@ class CharsetParameterTests {
         // Given
         Charset charset = StandardCharsets.UTF_8;
         List<Character> letters = filterLetters(collectPrintableCharactersOf(charset));
-        EasyRandomParameters parameters = new EasyRandomParameters().charset(charset);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().charset(charset);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // Then
         char[] chars = person.getName().toCharArray();

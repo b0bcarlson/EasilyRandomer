@@ -27,7 +27,7 @@ import org.jeasy.random.FieldPredicates;
 import org.jeasy.random.TypePredicates;
 import org.jeasy.random.annotation.Exclude;
 import org.jeasy.random.annotation.Priority;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerRegistry;
 import org.jeasy.random.randomizers.misc.SkipRandomizer;
@@ -52,7 +52,7 @@ public class ExclusionRandomizerRegistry implements RandomizerRegistry {
      * {@inheritDoc}
      */
     @Override
-    public void init(EasyRandomParameters parameters) {
+    public void init(EasilyRandomerParameters parameters) {
         fieldPredicates.add(FieldPredicates.isAnnotatedWith(Exclude.class));
         typePredicates.add(TypePredicates.isAnnotatedWith(Exclude.class));
     }

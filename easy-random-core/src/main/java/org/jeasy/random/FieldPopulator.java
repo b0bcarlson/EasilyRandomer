@@ -42,7 +42,7 @@ import static org.jeasy.random.util.ReflectionUtils.*;
  * Component that encapsulates the logic of generating a random value for a given field.
  * It collaborates with a:
  * <ul>
- *     <li>{@link EasyRandom} whenever the field is a user defined type.</li>
+ *     <li>{@link EasilyRandomer} whenever the field is a user defined type.</li>
  *     <li>{@link ArrayPopulator} whenever the field is an array type.</li>
  *     <li>{@link CollectionPopulator} whenever the field is a collection type.</li>
  *     <li>{@link CollectionPopulator}whenever the field is a map type.</li>
@@ -52,7 +52,7 @@ import static org.jeasy.random.util.ReflectionUtils.*;
  */
 class FieldPopulator {
 
-    private final EasyRandom easyRandom;
+    private final EasilyRandomer easilyRandomer;
 
     private final ArrayPopulator arrayPopulator;
 
@@ -64,10 +64,10 @@ class FieldPopulator {
 
     private final RandomizerProvider randomizerProvider;
 
-    FieldPopulator(final EasyRandom easyRandom, final RandomizerProvider randomizerProvider,
+    FieldPopulator(final EasilyRandomer easilyRandomer, final RandomizerProvider randomizerProvider,
                    final ArrayPopulator arrayPopulator, final CollectionPopulator collectionPopulator,
                    final MapPopulator mapPopulator, OptionalPopulator optionalPopulator) {
-        this.easyRandom = easyRandom;
+        this.easilyRandomer = easilyRandomer;
         this.randomizerProvider = randomizerProvider;
         this.arrayPopulator = arrayPopulator;
         this.collectionPopulator = collectionPopulator;
@@ -147,17 +147,17 @@ class FieldPopulator {
                 if (parameterizedTypes.isEmpty()) {
                     throw new ObjectCreationException("Unable to find a matching concrete subtype of type: " + fieldType);
                 } else {
-                    Class<?> randomConcreteSubType = parameterizedTypes.get(easyRandom.nextInt(parameterizedTypes.size()));
-                    return easyRandom.doPopulateBean(randomConcreteSubType, context);
+                    Class<?> randomConcreteSubType = parameterizedTypes.get(easilyRandomer.nextInt(parameterizedTypes.size()));
+                    return easilyRandomer.doPopulateBean(randomConcreteSubType, context);
                 }
             } else {
                 Type genericType = field.getGenericType();
                 if (isTypeVariable(genericType)) {
                     // if generic type, try to retrieve actual type from hierarchy
                     Class<?> type = getParametrizedType(field, context);
-                    return easyRandom.doPopulateBean(type, context);
+                    return easilyRandomer.doPopulateBean(type, context);
                 }
-                return easyRandom.doPopulateBean(fieldType, context);
+                return easilyRandomer.doPopulateBean(fieldType, context);
             }
         }
     }

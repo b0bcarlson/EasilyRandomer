@@ -27,7 +27,7 @@ import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 
 /**
  * Generate a random {@link YearMonth} in the given range.
@@ -64,13 +64,13 @@ public class YearMonthRangeRandomizer extends AbstractRangeRandomizer<YearMonth>
 
     @Override
     protected YearMonth getDefaultMinValue() {
-        ZonedDateTime defaultDateMin = EasyRandomParameters.DEFAULT_DATES_RANGE.getMin();
+        ZonedDateTime defaultDateMin = EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMin();
         return YearMonth.of(defaultDateMin.getYear(), defaultDateMin.getMonth());
     }
 
     @Override
     protected YearMonth getDefaultMaxValue() {
-        ZonedDateTime defaultDateMax = EasyRandomParameters.DEFAULT_DATES_RANGE.getMax();
+        ZonedDateTime defaultDateMax = EasilyRandomerParameters.DEFAULT_DATES_RANGE.getMax();
         return YearMonth.of(defaultDateMax.getYear(), defaultDateMax.getMonth());
     }
 

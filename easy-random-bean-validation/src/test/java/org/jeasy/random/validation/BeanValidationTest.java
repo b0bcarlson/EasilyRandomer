@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.validation;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.randomizers.range.BigDecimalRangeRandomizer;
 import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
 import org.jeasy.random.randomizers.registry.CustomRandomizerRegistry;
@@ -51,21 +51,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class BeanValidationTest {
 
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     @BeforeEach
     void setUp() {
-        easyRandom = new EasyRandom();
+        easilyRandomer = new EasilyRandomer();
     }
 
     @Test
     void sizeConstraintShouldNotBePropagatedToEmbeddedBeans() {
 
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .collectionSizeRange(11, 15)
                 .stringLengthRange(16, 20);
-        easyRandom = new EasyRandom(parameters);
-        BeanValidationAnnotatedBean bean = easyRandom.nextObject(BeanValidationAnnotatedBean.class);
+        easilyRandomer = new EasilyRandomer(parameters);
+        BeanValidationAnnotatedBean bean = easilyRandomer.nextObject(BeanValidationAnnotatedBean.class);
 
         assertThat(bean.getSizedListEmbeddedBean().size()).isBetween(2, 10); // @Size constraint
         assertThat(bean.getSizedListEmbeddedBean()).allSatisfy(embeddedBean -> {
@@ -76,11 +76,11 @@ class BeanValidationTest {
 
     @Test
     void sizeConstraintShouldTakePrecedenceOverCollectionSizeRangeInEmbeddedBeans() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .collectionSizeRange(11, 15)
                 .stringLengthRange(16, 20);
-        easyRandom = new EasyRandom(parameters);
-        BeanValidationAnnotatedBean bean = easyRandom.nextObject(BeanValidationAnnotatedBean.class);
+        easilyRandomer = new EasilyRandomer(parameters);
+        BeanValidationAnnotatedBean bean = easilyRandomer.nextObject(BeanValidationAnnotatedBean.class);
 
         assertThat(bean.getSizedListEmbeddedBean().size()).isBetween(2, 10); // @Size constraint
         assertThat(bean.getSizedListEmbeddedBean()).allSatisfy(embeddedBean -> {
@@ -93,7 +93,7 @@ class BeanValidationTest {
 
     @Test
     void generatedValuesShouldBeValidAccordingToValidationConstraints() {
-        BeanValidationAnnotatedBean bean = easyRandom.nextObject(BeanValidationAnnotatedBean.class);
+        BeanValidationAnnotatedBean bean = easilyRandomer.nextObject(BeanValidationAnnotatedBean.class);
 
         assertThat(bean).isNotNull();
 
@@ -164,7 +164,7 @@ class BeanValidationTest {
 
     @Test
     void generatedValuesShouldBeValidAccordingToValidationConstraintsOnMethod() {
-        BeanValidationMethodAnnotatedBean bean = easyRandom.nextObject(BeanValidationMethodAnnotatedBean.class);
+        BeanValidationMethodAnnotatedBean bean = easilyRandomer.nextObject(BeanValidationMethodAnnotatedBean.class);
 
         assertThat(bean).isNotNull();
 
@@ -235,15 +235,15 @@ class BeanValidationTest {
 
     @Test
     void generatedValuesForBeanWithoutReadMethod() {
-        BeanValidationWithoutReadMethodBean bean = easyRandom.nextObject(BeanValidationWithoutReadMethodBean.class);
+        BeanValidationWithoutReadMethodBean bean = easilyRandomer.nextObject(BeanValidationWithoutReadMethodBean.class);
 
         assertThat(bean).hasNoNullFieldsOrProperties();
     }
 
     @Test
     void shouldGenerateTheSameValueForTheSameSeed() {
-        EasyRandomParameters parameters = new EasyRandomParameters().seed(123L);
-        EasyRandom random = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().seed(123L);
+        EasilyRandomer random = new EasilyRandomer(parameters);
 
         BeanValidationAnnotatedBean bean = random.nextObject(BeanValidationAnnotatedBean.class);
 
@@ -270,7 +270,7 @@ class BeanValidationTest {
 
     @Test
     void generatedBeanShouldBeValidUsingBeanValidationAPI() {
-        BeanValidationAnnotatedBean bean = easyRandom.nextObject(BeanValidationAnnotatedBean.class);
+        BeanValidationAnnotatedBean bean = easilyRandomer.nextObject(BeanValidationAnnotatedBean.class);
 
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         Validator validator = validatorFactory.getValidator();
@@ -291,12 +291,12 @@ class BeanValidationTest {
             }
         }
 
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomizerRegistry(new MyCustomBeanValidationRandomizerRegistry());
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Salary salary = easyRandom.nextObject(Salary.class);
+        Salary salary = easilyRandomer.nextObject(Salary.class);
 
         // then
         assertThat(salary).isNotNull();
@@ -332,12 +332,12 @@ class BeanValidationTest {
         CustomRandomizerRegistry registry = new CustomRandomizerRegistry();
         registry.registerRandomizer(BigDecimal.class, new BigDecimalRangeRandomizer(Double.valueOf(5d), Double.valueOf(10d), Integer.valueOf(3)));
         registry.registerRandomizer(Integer.class, new IntegerRangeRandomizer(5, 10));
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomizerRegistry(registry);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Discount discount = easyRandom.nextObject(Discount.class);
+        Discount discount = easilyRandomer.nextObject(Discount.class);
 
         // then
         assertThat(discount.discountEffects)

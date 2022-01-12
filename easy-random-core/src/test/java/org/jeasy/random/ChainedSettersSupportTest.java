@@ -36,10 +36,10 @@ public class ChainedSettersSupportTest {
 	@Test
 	void generatedBeanWithFluentSetterShouldBeCorrectlyPopulated() {
 		// given
-		EasyRandom easyRandom = new EasyRandom();
+		EasilyRandomer easilyRandomer = new EasilyRandomer();
 
 		// when
-		ChainedSetterBean chainedSetterBean = easyRandom.nextObject(ChainedSetterBean.class);
+		ChainedSetterBean chainedSetterBean = easilyRandomer.nextObject(ChainedSetterBean.class);
 
 		// then
 		assertThat(chainedSetterBean.getName()).isNotEmpty();
@@ -60,10 +60,10 @@ public class ChainedSettersSupportTest {
 		class SubClass extends BaseClass {
 			private int field; // note: field overridden
 		}
-		EasyRandom easyRandom = new EasyRandom();
+		EasilyRandomer easilyRandomer = new EasilyRandomer();
 
 		// when
-		SubClass value = easyRandom.nextObject(SubClass.class);
+		SubClass value = easilyRandomer.nextObject(SubClass.class);
 
 		// then
 		assertFalse(((BaseClass) value).field.isEmpty());
@@ -105,10 +105,10 @@ public class ChainedSettersSupportTest {
 		class SubClassA extends BaseClass {
 			private SubClassB subClassB;
 		}
-		EasyRandom easyRandom = new EasyRandom();
+		EasilyRandomer easilyRandomer = new EasilyRandomer();
 
 		// when
-		SubClassA value = easyRandom.nextObject(SubClassA.class);
+		SubClassA value = easilyRandomer.nextObject(SubClassA.class);
 
 		// then
 		assertNotNull(value.getField());

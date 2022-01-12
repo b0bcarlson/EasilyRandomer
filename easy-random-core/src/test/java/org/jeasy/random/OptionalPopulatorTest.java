@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OptionalPopulatorTest {
 
 	@Mock
-	private EasyRandom easyRandom;
+	private EasilyRandomer easilyRandomer;
 	@Mock
 	private RandomizationContext context;
 
@@ -47,14 +47,14 @@ public class OptionalPopulatorTest {
 
 	@BeforeEach
 	void setUp() {
-		optionalPopulator = new OptionalPopulator(easyRandom);
+		optionalPopulator = new OptionalPopulator(easilyRandomer);
 	}
 
 	@Test
 	void testOptionalRandomization() throws Exception {
 		// given
 		Field field = Foo.class.getDeclaredField("name");
-		Mockito.when(easyRandom.doPopulateBean(String.class, context)).thenReturn("foobar");
+		Mockito.when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn("foobar");
 
 		//when
 		Optional<?> randomOptional = optionalPopulator.getRandomOptional(field, context);

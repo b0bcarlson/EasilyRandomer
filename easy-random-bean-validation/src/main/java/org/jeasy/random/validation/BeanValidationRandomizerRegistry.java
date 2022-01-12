@@ -24,7 +24,7 @@
 package org.jeasy.random.validation;
 
 import org.jeasy.random.annotation.Priority;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.api.RandomizerRegistry;
 import org.jeasy.random.util.ReflectionUtils;
@@ -46,7 +46,7 @@ public class BeanValidationRandomizerRegistry implements RandomizerRegistry {
     protected Map<Class<? extends Annotation>, BeanValidationAnnotationHandler> annotationHandlers = new HashMap<>();
 
     @Override
-    public void init(EasyRandomParameters parameters) {
+    public void init(EasilyRandomerParameters parameters) {
         long seed = parameters.getSeed();
         annotationHandlers.put(AssertFalse.class, new AssertFalseAnnotationHandler());
         annotationHandlers.put(AssertTrue.class, new AssertTrueAnnotationHandler());

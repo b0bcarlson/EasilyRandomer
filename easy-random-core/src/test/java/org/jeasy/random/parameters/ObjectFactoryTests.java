@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.parameters;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.ObjectCreationException;
 import org.jeasy.random.api.ObjectFactory;
 import org.jeasy.random.api.RandomizerContext;
@@ -40,7 +40,7 @@ class ObjectFactoryTests {
     @Test
     void testCustomObjectFactory() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .objectFactory(new ObjectFactory() {
                     @Override
                     public <T> T createInstance(Class<T> type, RandomizerContext context) throws ObjectCreationException {
@@ -66,10 +66,10 @@ class ObjectFactoryTests {
                         }
                     }
                 });
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();

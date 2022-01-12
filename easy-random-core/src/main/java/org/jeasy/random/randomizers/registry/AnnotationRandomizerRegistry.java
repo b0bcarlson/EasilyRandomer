@@ -23,7 +23,7 @@
  */
 package org.jeasy.random.randomizers.registry;
 
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.annotation.Priority;
 import org.jeasy.random.annotation.RandomizerArgument;
 import org.jeasy.random.api.Randomizer;
@@ -45,7 +45,7 @@ public class AnnotationRandomizerRegistry implements RandomizerRegistry {
     private final Map<Field, Randomizer<?>> customFieldRandomizersRegistry = new HashMap<>();
 
     @Override
-    public void init(EasyRandomParameters parameters) {
+    public void init(EasilyRandomerParameters parameters) {
         // no op
     }
 

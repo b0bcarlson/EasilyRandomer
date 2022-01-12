@@ -46,30 +46,30 @@ import static org.jeasy.random.FieldPredicates.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class EasyRandomTest {
+class EasilyRandomerTest {
 
     private static final String FOO = "foo";
 
     @Mock
     private Randomizer<String> randomizer;
 
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     @BeforeEach
     void setUp() {
-        easyRandom = new EasyRandom();
+        easilyRandomer = new EasilyRandomer();
     }
 
     @Test
     void generatedBeansShouldBeCorrectlyPopulated() {
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
         validatePerson(person);
     }
 
     @Test
     void shouldFailIfSetterInvocationFails() {
-        EasyRandom easyRandom = new EasyRandom();
-        Throwable thrown = catchThrowable(() -> easyRandom.nextObject(Salary.class));
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
+        Throwable thrown = catchThrowable(() -> easilyRandomer.nextObject(Salary.class));
 
         assertThat(thrown).isInstanceOf(ObjectCreationException.class)
                 .hasMessageContaining("Unable to create a random instance of type class org.jeasy.random.beans.Salary");
@@ -85,7 +85,7 @@ class EasyRandomTest {
 
     @Test
     void finalFieldsShouldBePopulated() {
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         assertThat(person).isNotNull();
         assertThat(person.getId()).isNotNull();
@@ -94,7 +94,7 @@ class EasyRandomTest {
     @Test
     void staticFieldsShouldNotBePopulated() {
         try {
-            Human human = easyRandom.nextObject(Human.class);
+            Human human = easilyRandomer.nextObject(Human.class);
             assertThat(human).isNotNull();
         } catch (Exception e) {
             fail("Should be able to populate types with private static final fields.", e);
@@ -103,13 +103,13 @@ class EasyRandomTest {
 
     @Test
     void immutableBeansShouldBePopulated() {
-        final ImmutableBean immutableBean = easyRandom.nextObject(ImmutableBean.class);
+        final ImmutableBean immutableBean = easilyRandomer.nextObject(ImmutableBean.class);
         assertThat(immutableBean).hasNoNullFieldsOrProperties();
     }
 
     @Test
     void generatedBeansNumberShouldBeEqualToSpecifiedNumber() {
-        Stream<Person> persons = easyRandom.objects(Person.class, 2);
+        Stream<Person> persons = easilyRandomer.objects(Person.class, 2);
 
         assertThat(persons).hasSize(2).hasOnlyElementsOfType(Person.class);
     }
@@ -118,11 +118,11 @@ class EasyRandomTest {
     void customRandomzierForFieldsShouldBeUsedToPopulateObjects() {
         when(randomizer.getRandomValue()).thenReturn(FOO);
 
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(named("name").and(ofType(String.class)).and(inClass(Human.class)), randomizer);
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         assertThat(person).isNotNull();
         assertThat(person.getName()).isEqualTo(FOO);
@@ -133,12 +133,12 @@ class EasyRandomTest {
         when(randomizer.getRandomValue()).thenReturn(FOO);
 
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(hasModifiers(Modifier.TRANSIENT).and(ofType(String.class)), randomizer);
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // Then
         assertThat(person.getEmail()).isEqualTo(FOO);
@@ -150,12 +150,12 @@ class EasyRandomTest {
         // Given
         when(randomizer.getRandomValue()).thenReturn(FOO);
         int modifiers = Modifier.TRANSIENT | Modifier.PROTECTED;
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(hasModifiers(modifiers).and(ofType(String.class)), randomizer);
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // Then
         assertThat(person.getEmail()).isEqualTo(FOO);
@@ -166,11 +166,11 @@ class EasyRandomTest {
     void customRandomzierForTypesShouldBeUsedToPopulateObjects() {
         when(randomizer.getRandomValue()).thenReturn(FOO);
 
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(String.class, randomizer);
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        String string = easyRandom.nextObject(String.class);
+        String string = easilyRandomer.nextObject(String.class);
 
         assertThat(string).isEqualTo(FOO);
     }
@@ -179,42 +179,42 @@ class EasyRandomTest {
     void customRandomzierForTypesShouldBeUsedToPopulateFields() {
         when(randomizer.getRandomValue()).thenReturn(FOO);
 
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(String.class, randomizer);
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        Human human = easyRandom.nextObject(Human.class);
+        Human human = easilyRandomer.nextObject(Human.class);
 
         assertThat(human.getName()).isEqualTo(FOO);
     }
 
     @Test
     void whenSpecifiedNumberOfBeansToGenerateIsNegative_thenShouldThrowAnIllegalArgumentException() {
-        assertThatThrownBy(() -> easyRandom.objects(Person.class, -2)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> easilyRandomer.objects(Person.class, -2)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void whenUnableToInstantiateField_thenShouldThrowObjectGenerationException() {
-        assertThatThrownBy(() -> easyRandom.nextObject(AbstractBean.class)).isInstanceOf(ObjectCreationException.class);
+        assertThatThrownBy(() -> easilyRandomer.nextObject(AbstractBean.class)).isInstanceOf(ObjectCreationException.class);
     }
 
     @Test
     void beansWithRecursiveStructureMustNotCauseStackOverflowException() {
-        Node node = easyRandom.nextObject(Node.class);
+        Node node = easilyRandomer.nextObject(Node.class);
 
         assertThat(node).hasNoNullFieldsOrProperties();
     }
 
     @Test
     void objectTypeMustBeCorrectlyPopulated() {
-        Object object = easyRandom.nextObject(Object.class);
+        Object object = easilyRandomer.nextObject(Object.class);
 
         assertThat(object).isNotNull();
     }
 
     @Test
     void annotatedRandomizerArgumentsShouldBeCorrectlyParsed() {
-        TestData data = easyRandom.nextObject(TestData.class);
+        TestData data = easilyRandomer.nextObject(TestData.class);
 
         then(data.getDate()).isBetween(valueOf(of(2016, 1, 10, 0, 0, 0)), valueOf(of(2016, 1, 30, 23, 59, 59)));
         then(data.getPrice()).isBetween(200, 500);
@@ -224,7 +224,7 @@ class EasyRandomTest {
     void nextEnumShouldNotAlwaysReturnTheSameValue() {
         HashSet<TestEnum> distinctEnumBeans = new HashSet<>();
         for (int i = 0; i < 10; i++) {
-            distinctEnumBeans.add(easyRandom.nextObject(TestEnum.class));
+            distinctEnumBeans.add(easilyRandomer.nextObject(TestEnum.class));
         }
 
         assertThat(distinctEnumBeans.size()).isGreaterThan(1);
@@ -233,7 +233,7 @@ class EasyRandomTest {
     @Test
     void fieldsOfTypeClassShouldBeSkipped() {
         try {
-            TestBean testBean = easyRandom.nextObject(TestBean.class);
+            TestBean testBean = easilyRandomer.nextObject(TestBean.class);
             assertThat(testBean.getException()).isNotNull();
             assertThat(testBean.getClazz()).isNull();
         } catch (Exception e) {
@@ -250,7 +250,7 @@ class EasyRandomTest {
         }
         
         // when
-        Foo foo = new EasyRandom().nextObject(Foo.class);
+        Foo foo = new EasilyRandomer().nextObject(Foo.class);
         
         // then
         assertThat(foo.names.size()).isNotEqualTo(foo.addresses.size());
@@ -265,7 +265,7 @@ class EasyRandomTest {
         }
 
         // when
-        Foo foo = new EasyRandom().nextObject(Foo.class);
+        Foo foo = new EasilyRandomer().nextObject(Foo.class);
 
         // then
         assertThat(foo.names.length).isNotEqualTo(foo.addresses.length);
@@ -280,7 +280,7 @@ class EasyRandomTest {
         class Concrete extends Base<String> {}
         
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
         
         // then
         assertThat(concrete.t).isInstanceOf(String.class);
@@ -297,7 +297,7 @@ class EasyRandomTest {
         class Concrete extends Base<String, Long> {}
         
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
         
         // then
         assertThat(concrete.t).isInstanceOf(String.class);
@@ -323,7 +323,7 @@ class EasyRandomTest {
         }
 
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
         
         // then
         assertThat(concrete.getX().getClass()).isEqualTo(Integer.class);
@@ -347,7 +347,7 @@ class EasyRandomTest {
         }
 
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
         
         // then
         assertThat(concrete.getX().getClass()).isEqualTo(Street.class);
@@ -371,7 +371,7 @@ class EasyRandomTest {
         }
 
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
         
         // then
         assertThat(concrete.getX().getClass()).isEqualTo(BoundedBaseClass.IntWrapper.class);
@@ -409,7 +409,7 @@ class EasyRandomTest {
         }
 
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
         
         // then
         assertThat(concrete.getX()).isInstanceOf(String.class);
@@ -426,10 +426,10 @@ class EasyRandomTest {
 
         assertThatThrownBy(
                 // when
-                () -> easyRandom.nextObject(Concrete.class))
+                () -> easilyRandomer.nextObject(Concrete.class))
                 // then
                 .isInstanceOf(ObjectCreationException.class)
-                .hasMessage("Unable to create a random instance of type class org.jeasy.random.EasyRandomTest$7Concrete");
+                .hasMessage("Unable to create a random instance of type class org.jeasy.random.EasilyRandomerTest$7Concrete");
     }
 
     @Test
@@ -456,7 +456,7 @@ class EasyRandomTest {
         }
 
         // when
-        Concrete concrete = easyRandom.nextObject(Concrete.class);
+        Concrete concrete = easilyRandomer.nextObject(Concrete.class);
 
         // then
         assertThat(concrete.getX()).isInstanceOf(String.class);
@@ -493,7 +493,7 @@ class EasyRandomTest {
         System.out.println("Found " + publicConcreteTypes.size() + " public concrete types in the classpath");
         for (Class<?> aClass : publicConcreteTypes) {
             try {
-                easyRandom.nextObject(aClass);
+                easilyRandomer.nextObject(aClass);
                 System.out.println(aClass.getName() + " has been successfully randomized");
                 success++;
             } catch (Throwable e) {

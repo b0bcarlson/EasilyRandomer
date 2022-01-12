@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.parameters;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.ExclusionPolicy;
 import org.jeasy.random.api.RandomizerContext;
 import org.jeasy.random.beans.Address;
@@ -40,7 +40,7 @@ class ExclusionPolicyTests {
     @Test
     void testCustomExclusionPolicy() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .exclusionPolicy(new ExclusionPolicy() {
                     @Override
                     public boolean shouldBeExcluded(Field field, RandomizerContext context) {
@@ -52,10 +52,10 @@ class ExclusionPolicyTests {
                         return type.isAssignableFrom(Address.class);
                     }
                 });
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();

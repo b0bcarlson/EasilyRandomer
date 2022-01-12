@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.function.Supplier;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 class VisibilityTest {
@@ -37,11 +37,11 @@ class VisibilityTest {
     @Test
     void canPassSupplierLambdaFromOtherPackage() {
         Supplier<String> supplier = () -> "test";
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(String.class, asRandomizer(supplier));
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
-        String value = easyRandom.nextObject(String.class);
+        String value = easilyRandomer.nextObject(String.class);
 
         assertThat(value).isEqualTo("test");
     }

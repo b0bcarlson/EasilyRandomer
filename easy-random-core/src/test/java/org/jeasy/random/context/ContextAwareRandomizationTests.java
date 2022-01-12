@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.context;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import static org.jeasy.random.FieldPredicates.*;
@@ -36,14 +36,14 @@ class ContextAwareRandomizationTests {
     void testContextAwareRandomization() {
         // given
         String[] names = {"james", "daniel"};
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(named("firstName").and(ofType(String.class)).and(inClass(Person.class)), new FirstNameRandomizer(names))
                 .randomize(named("lastName").and(ofType(String.class)).and(inClass(Person.class)), new LastNameRandomizer())
                 .excludeField(named("nickname"));
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         String firstName = person.getFirstName();
@@ -64,16 +64,16 @@ class ContextAwareRandomizationTests {
         // given
         String[] names = {"james", "daniel"};
         String[] countries = {"france", "germany", "belgium"};
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(named("firstName").and(ofType(String.class)), new FirstNameRandomizer(names))
                 .randomize(named("lastName").and(ofType(String.class)), new LastNameRandomizer())
                 .randomize(ofType(Country.class), new CountryRandomizer(countries))
                 .randomize(ofType(City.class), new CityRandomizer())
                 .excludeField(named("nickname"));
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         if (person.getFirstName().equalsIgnoreCase("james")) {

@@ -28,33 +28,33 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.ArrayList;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 class CollectionSizeRangeParameterTests {
 
     @Test
     void shouldNotAllowNegativeMinCollectionSize() {
-        assertThatThrownBy(() -> new EasyRandomParameters().collectionSizeRange(-1, 10)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new EasilyRandomerParameters().collectionSizeRange(-1, 10)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void shouldNotAllowMinCollectionSizeGreaterThanMaxCollectionSize() {
-        assertThatThrownBy(() -> new EasyRandomParameters().collectionSizeRange(2, 1)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new EasilyRandomerParameters().collectionSizeRange(2, 1)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void generatedCollectionSizeShouldBeInSpecifiedRange() {
-        EasyRandomParameters parameters = new EasyRandomParameters().collectionSizeRange(0, 10);
-        assertThat(new EasyRandom(parameters).nextObject(ArrayList.class).size()).isBetween(0, 10);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().collectionSizeRange(0, 10);
+        assertThat(new EasilyRandomer(parameters).nextObject(ArrayList.class).size()).isBetween(0, 10);
     }
 
     @Test // https://github.com/j-easy/easy-random/issues/191
     void collectionSizeRangeShouldWorkForArrays() {
-        EasyRandomParameters parameters = new EasyRandomParameters().collectionSizeRange(0, 10);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().collectionSizeRange(0, 10);
 
-        String[] strArr = new EasyRandom(parameters).nextObject(String[].class);
+        String[] strArr = new EasilyRandomer(parameters).nextObject(String[].class);
 
         assertThat(strArr.length).isLessThanOrEqualTo(10);
     }

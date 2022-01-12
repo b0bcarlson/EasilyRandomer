@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.parameters;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.beans.Salary;
 import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
 import org.junit.jupiter.api.Test;
@@ -39,15 +39,15 @@ public class BypassSettersParameterTests {
 	@Test
 	void whenBypassSettersIsActivated_thenShouldNotInvokeSetters() {
 		// given
-		EasyRandomParameters parameters = new EasyRandomParameters()
+		EasilyRandomerParameters parameters = new EasilyRandomerParameters()
 				.bypassSetters(true)
 				.randomize(named("amount").and(ofType(int.class)).and(inClass(Salary.class)),
 						new IntegerRangeRandomizer(-10, -1))
 				.excludeField(named("setterInvoked").and(ofType(boolean.class)).and(inClass(Salary.class)));
-		EasyRandom easyRandom = new EasyRandom(parameters);
+		EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
 		// when
-		Salary salary = easyRandom.nextObject(Salary.class);
+		Salary salary = easilyRandomer.nextObject(Salary.class);
 		
 		// then
 		assertThat(salary).isNotNull();
@@ -58,14 +58,14 @@ public class BypassSettersParameterTests {
 	@Test
 	void whenBypassSettersIsNotActivated_thenShouldInvokeSetters() {
 		// given
-		EasyRandomParameters parameters = new EasyRandomParameters()
+		EasilyRandomerParameters parameters = new EasilyRandomerParameters()
 				.bypassSetters(true)
 				.randomize(named("amount").and(ofType(int.class)).and(inClass(Salary.class)),
 						new IntegerRangeRandomizer(-10, -1));
-		EasyRandom easyRandom = new EasyRandom(parameters);
+		EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
 		// when
-		Salary salary = easyRandom.nextObject(Salary.class);
+		Salary salary = easilyRandomer.nextObject(Salary.class);
 
 		// then
 		assertThat(salary).isNotNull();

@@ -38,10 +38,10 @@ import static org.jeasy.random.util.ReflectionUtils.isPopulatable;
  */
 class OptionalPopulator {
 
-	private final EasyRandom easyRandom;
+	private final EasilyRandomer easilyRandomer;
 
-	OptionalPopulator(EasyRandom easyRandom) {
-		this.easyRandom = easyRandom;
+	OptionalPopulator(EasilyRandomer easilyRandomer) {
+		this.easilyRandomer = easilyRandomer;
 	}
 
 	Optional<?> getRandomOptional(final Field field, final RandomizationContext context) {
@@ -50,7 +50,7 @@ class OptionalPopulator {
 			ParameterizedType parameterizedType = (ParameterizedType) fieldGenericType;
 			Type genericType = parameterizedType.getActualTypeArguments()[0];
 			if (isPopulatable(genericType)) {
-				return Optional.of(easyRandom.doPopulateBean((Class<?>) genericType, context));
+				return Optional.of(easilyRandomer.doPopulateBean((Class<?>) genericType, context));
 			} else {
 				return Optional.empty();
 			}

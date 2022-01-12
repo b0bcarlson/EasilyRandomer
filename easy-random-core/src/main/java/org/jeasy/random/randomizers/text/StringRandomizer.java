@@ -23,7 +23,7 @@
  */
 package org.jeasy.random.randomizers.text;
 
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.randomizers.AbstractRandomizer;
 
 import java.nio.charset.Charset;
@@ -37,8 +37,8 @@ public class StringRandomizer extends AbstractRandomizer<String> {
 
     private final CharacterRandomizer characterRandomizer;
 
-    private int maxLength = EasyRandomParameters.DEFAULT_STRING_LENGTH_RANGE.getMax();
-    private int minLength = EasyRandomParameters.DEFAULT_STRING_LENGTH_RANGE.getMin();
+    private int maxLength = EasilyRandomerParameters.DEFAULT_STRING_LENGTH_RANGE.getMax();
+    private int minLength = EasilyRandomerParameters.DEFAULT_STRING_LENGTH_RANGE.getMin();
 
     /**
      * Create a new {@link StringRandomizer}.

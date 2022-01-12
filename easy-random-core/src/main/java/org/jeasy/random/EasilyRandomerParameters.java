@@ -38,11 +38,11 @@ import static java.lang.String.format;
 import static java.time.ZonedDateTime.of;
 
 /**
- * Parameters of an {@link EasyRandom} instance.
+ * Parameters of an {@link EasilyRandomer} instance.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)
  */
-public class EasyRandomParameters {
+public class EasilyRandomerParameters {
 
     /**
      * Default charset for Strings.
@@ -109,9 +109,9 @@ public class EasyRandomParameters {
     private Set<Predicate<Class<?>>> typeExclusionPredicates;
 
     /**
-     * Create a new {@link EasyRandomParameters} with default values.
+     * Create a new {@link EasilyRandomerParameters} with default values.
      */
-    public EasyRandomParameters() {
+    public EasilyRandomerParameters() {
         seed = new Random().nextLong();
         charset = DEFAULT_CHARSET;
         scanClasspathForConcreteTypes = false;
@@ -276,11 +276,11 @@ public class EasyRandomParameters {
      * @param predicate to identify the field
      * @param randomizer to register
      * @param <T> The field type
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      *
      * @see FieldPredicates
      */
-    public <T> EasyRandomParameters randomize(Predicate<Field> predicate, Randomizer<T> randomizer) {
+    public <T> EasilyRandomerParameters randomize(Predicate<Field> predicate, Randomizer<T> randomizer) {
         Objects.requireNonNull(predicate, "Predicate must not be null");
         Objects.requireNonNull(randomizer, "Randomizer must not be null");
         customRandomizerRegistry.registerRandomizer(predicate, randomizer);
@@ -293,9 +293,9 @@ public class EasyRandomParameters {
      * @param type       class of the type to randomize
      * @param randomizer the custom {@link Randomizer} to use
      * @param <T> The field type
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public <T> EasyRandomParameters randomize(Class<T> type, Randomizer<T> randomizer) {
+    public <T> EasilyRandomerParameters randomize(Class<T> type, Randomizer<T> randomizer) {
         Objects.requireNonNull(type, "Type must not be null");
         Objects.requireNonNull(randomizer, "Randomizer must not be null");
         customRandomizerRegistry.registerRandomizer(type, randomizer);
@@ -306,11 +306,11 @@ public class EasyRandomParameters {
      * Exclude a field from being randomized.
      *
      * @param predicate to identify the field to exclude
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      *
      * @see FieldPredicates
      */
-    public EasyRandomParameters excludeField(Predicate<Field> predicate) {
+    public EasilyRandomerParameters excludeField(Predicate<Field> predicate) {
         Objects.requireNonNull(predicate, "Predicate must not be null");
         fieldExclusionPredicates.add(predicate);
         exclusionRandomizerRegistry.addFieldPredicate(predicate);
@@ -321,11 +321,11 @@ public class EasyRandomParameters {
      * Exclude a type from being randomized.
      *
      * @param predicate to identify the type to exclude
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      *
      * @see FieldPredicates
      */
-    public EasyRandomParameters excludeType(Predicate<Class<?>> predicate) {
+    public EasilyRandomerParameters excludeType(Predicate<Class<?>> predicate) {
         Objects.requireNonNull(predicate, "Predicate must not be null");
         typeExclusionPredicates.add(predicate);
         exclusionRandomizerRegistry.addTypePredicate(predicate);
@@ -336,9 +336,9 @@ public class EasyRandomParameters {
      * Provide a custom exclusion policy.
      *
      * @param exclusionPolicy to use
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters exclusionPolicy(ExclusionPolicy exclusionPolicy) {
+    public EasilyRandomerParameters exclusionPolicy(ExclusionPolicy exclusionPolicy) {
         setExclusionPolicy(exclusionPolicy);
         return this;
     }
@@ -347,9 +347,9 @@ public class EasyRandomParameters {
      * Provide a custom object factory.
      *
      * @param objectFactory to use
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters objectFactory(ObjectFactory objectFactory) {
+    public EasilyRandomerParameters objectFactory(ObjectFactory objectFactory) {
         setObjectFactory(objectFactory);
         return this;
     }
@@ -358,9 +358,9 @@ public class EasyRandomParameters {
      * Provide a custom randomizer provider.
      *
      * @param randomizerProvider to use
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters randomizerProvider(RandomizerProvider randomizerProvider) {
+    public EasilyRandomerParameters randomizerProvider(RandomizerProvider randomizerProvider) {
         setRandomizerProvider(randomizerProvider);
         return this;
     }
@@ -369,9 +369,9 @@ public class EasyRandomParameters {
      * Set the initial random seed.
      *
      * @param seed the initial seed
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters seed(final long seed) {
+    public EasilyRandomerParameters seed(final long seed) {
         setSeed(seed);
         return this;
     }
@@ -381,9 +381,9 @@ public class EasyRandomParameters {
      *
      * @param minCollectionSize the minimum collection size
      * @param maxCollectionSize the maximum collection size
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters collectionSizeRange(final int minCollectionSize, final int maxCollectionSize) {
+    public EasilyRandomerParameters collectionSizeRange(final int minCollectionSize, final int maxCollectionSize) {
         if (minCollectionSize < 0) {
             throw new IllegalArgumentException("minCollectionSize must be >= 0");
         }
@@ -400,9 +400,9 @@ public class EasyRandomParameters {
      *
      * @param minStringLength the minimum string length
      * @param maxStringLength the maximum string length
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters stringLengthRange(final int minStringLength, final int maxStringLength) {
+    public EasilyRandomerParameters stringLengthRange(final int minStringLength, final int maxStringLength) {
         if (minStringLength < 0) {
             throw new IllegalArgumentException("minStringLength must be >= 0");
         }
@@ -419,9 +419,9 @@ public class EasyRandomParameters {
      * Set the number of different objects to generate for a type.
      *
      * @param objectPoolSize the number of objects to generate in the pool
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters objectPoolSize(final int objectPoolSize) {
+    public EasilyRandomerParameters objectPoolSize(final int objectPoolSize) {
         setObjectPoolSize(objectPoolSize);
         return this;
     }
@@ -430,9 +430,9 @@ public class EasyRandomParameters {
      * Set the randomization depth for objects graph.
      *
      * @param randomizationDepth the maximum randomization depth
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters randomizationDepth(final int randomizationDepth) {
+    public EasilyRandomerParameters randomizationDepth(final int randomizationDepth) {
         setRandomizationDepth(randomizationDepth);
         return this;
     }
@@ -441,9 +441,9 @@ public class EasyRandomParameters {
      * Set the charset to use for character based fields.
      *
      * @param charset the charset to use
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters charset(final Charset charset) {
+    public EasilyRandomerParameters charset(final Charset charset) {
         setCharset(charset);
         return this;
     }
@@ -453,9 +453,9 @@ public class EasyRandomParameters {
      *
      * @param min date
      * @param max date
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters dateRange(final LocalDate min, final LocalDate max) {
+    public EasilyRandomerParameters dateRange(final LocalDate min, final LocalDate max) {
         if (min.isAfter(max)) {
             throw new IllegalArgumentException("Min date should be before max date");
         }
@@ -468,9 +468,9 @@ public class EasyRandomParameters {
      *
      * @param min time
      * @param max time
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters timeRange(final LocalTime min, final LocalTime max) {
+    public EasilyRandomerParameters timeRange(final LocalTime min, final LocalTime max) {
         if (min.isAfter(max)) {
             throw new IllegalArgumentException("Min time should be before max time");
         }
@@ -482,9 +482,9 @@ public class EasyRandomParameters {
      * Register a {@link RandomizerRegistry}.
      *
      * @param registry the {@link RandomizerRegistry} to register
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters randomizerRegistry(final RandomizerRegistry registry) {
+    public EasilyRandomerParameters randomizerRegistry(final RandomizerRegistry registry) {
         Objects.requireNonNull(registry, "Registry must not be null");
         userRegistries.add(registry);
         return this;
@@ -497,9 +497,9 @@ public class EasyRandomParameters {
      * Deactivated by default.
      *
      * @param scanClasspathForConcreteTypes whether to scan the classpath or not
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters scanClasspathForConcreteTypes(boolean scanClasspathForConcreteTypes) {
+    public EasilyRandomerParameters scanClasspathForConcreteTypes(boolean scanClasspathForConcreteTypes) {
         setScanClasspathForConcreteTypes(scanClasspathForConcreteTypes);
         return this;
     }
@@ -510,9 +510,9 @@ public class EasyRandomParameters {
      * Deactivated by default.
      *
      * @param ignoreRandomizationErrors whether to silently ignore randomization errors or not
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters ignoreRandomizationErrors(boolean ignoreRandomizationErrors) {
+    public EasilyRandomerParameters ignoreRandomizationErrors(boolean ignoreRandomizationErrors) {
         setIgnoreRandomizationErrors(ignoreRandomizationErrors);
         return this;
     }
@@ -537,9 +537,9 @@ public class EasyRandomParameters {
      * Deactivated by default.
      *
      * @param overrideDefaultInitialization whether to override default initialization of field values or not
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters overrideDefaultInitialization(boolean overrideDefaultInitialization) {
+    public EasilyRandomerParameters overrideDefaultInitialization(boolean overrideDefaultInitialization) {
         setOverrideDefaultInitialization(overrideDefaultInitialization);
         return this;
     }
@@ -548,9 +548,9 @@ public class EasyRandomParameters {
      * Flag to bypass setters if any and use reflection directly instead. False by default.
      * 
      * @param bypassSetters true if setters should be ignored
-     * @return the current {@link EasyRandomParameters} instance for method chaining
+     * @return the current {@link EasilyRandomerParameters} instance for method chaining
      */
-    public EasyRandomParameters bypassSetters(boolean bypassSetters) {
+    public EasilyRandomerParameters bypassSetters(boolean bypassSetters) {
         setBypassSetters(bypassSetters);
         return this;
     }
@@ -591,8 +591,8 @@ public class EasyRandomParameters {
      * Return a shallow copy of randomization parameters.
      * @return a shallow copy of randomization parameters.
      */
-    public EasyRandomParameters copy() {
-        EasyRandomParameters copy = new EasyRandomParameters();
+    public EasilyRandomerParameters copy() {
+        EasilyRandomerParameters copy = new EasilyRandomerParameters();
         copy.setSeed(this.getSeed());
         copy.setObjectPoolSize(this.getObjectPoolSize());
         copy.setRandomizationDepth(this.getRandomizationDepth());

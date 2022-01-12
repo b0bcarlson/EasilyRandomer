@@ -28,7 +28,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.net.URI;
 import java.net.URL;
 
-import org.jeasy.random.EasyRandom;
+import org.jeasy.random.EasilyRandomer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -74,7 +74,7 @@ class NetRandomizersTest extends AbstractRandomizerTest<Randomizer<?>> {
     @Test
     void javaNetTypesShouldBePopulated() {
         // when
-        Website website = new EasyRandom().nextObject(Website.class);
+        Website website = new EasilyRandomer().nextObject(Website.class);
 
         then(website).hasNoNullFieldsOrProperties();
     }

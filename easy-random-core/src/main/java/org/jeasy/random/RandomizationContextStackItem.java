@@ -26,7 +26,7 @@ package org.jeasy.random;
 import java.lang.reflect.Field;
 
 /**
- * Context object holding the data of a recursion step in {@link EasyRandom#nextObject(Class)}.
+ * Context object holding the data of a recursion step in {@link EasilyRandomer#nextObject(Class)}.
  *
  * @author Rémi Alvergnat (toilal.dev@gmail.com)
  */

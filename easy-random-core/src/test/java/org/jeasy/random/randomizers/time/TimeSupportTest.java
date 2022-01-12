@@ -28,8 +28,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,16 +37,16 @@ import org.jeasy.random.beans.TimeBean;
 
 class TimeSupportTest {
 
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     @BeforeEach
     void setUp() {
-        easyRandom = new EasyRandom();
+        easilyRandomer = new EasilyRandomer();
     }
 
     @Test
     void threeTenTypesShouldBePopulated() {
-        TimeBean timeBean = easyRandom.nextObject(TimeBean.class);
+        TimeBean timeBean = easilyRandomer.nextObject(TimeBean.class);
 
         assertThat(timeBean).hasNoNullFieldsOrProperties();
     }
@@ -54,11 +54,11 @@ class TimeSupportTest {
     @Test
     // https://github.com/j-easy/easy-random/issues/135
     void threeTenRandomizersCanBeOverriddenByCustomRandomizers() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("instant").and(ofType(Instant.class)).and(inClass(TimeBean.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        TimeBean timeBean = easyRandom.nextObject(TimeBean.class);
+        TimeBean timeBean = easilyRandomer.nextObject(TimeBean.class);
 
         assertThat(timeBean.getInstant()).isNull();
     }

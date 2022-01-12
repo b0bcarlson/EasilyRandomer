@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.parameters;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.ObjectCreationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,14 +35,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class IgnoreRandomizationErrorsParameterTests {
 
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     @Test
     void whenIgnoreRandomizationErrorsIsActivated_thenShouldReturnNull() {
-        EasyRandomParameters parameters = new EasyRandomParameters().ignoreRandomizationErrors(true);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().ignoreRandomizationErrors(true);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        Foo foo = easyRandom.nextObject(Foo.class);
+        Foo foo = easilyRandomer.nextObject(Foo.class);
 
         Assertions.assertThat(foo).isNotNull();
         Assertions.assertThat(foo.getName()).isNotNull();
@@ -51,10 +51,10 @@ class IgnoreRandomizationErrorsParameterTests {
 
     @Test
     void whenIgnoreRandomizationErrorsIsDeactivated_thenShouldThrowObjectGenerationException() {
-        EasyRandomParameters parameters = new EasyRandomParameters().ignoreRandomizationErrors(false);
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().ignoreRandomizationErrors(false);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        assertThatThrownBy(() -> easyRandom.nextObject(Foo.class)).isInstanceOf(ObjectCreationException.class);
+        assertThatThrownBy(() -> easilyRandomer.nextObject(Foo.class)).isInstanceOf(ObjectCreationException.class);
     }
 
     static class Foo {

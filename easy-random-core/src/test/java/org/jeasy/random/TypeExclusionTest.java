@@ -35,16 +35,16 @@ class TypeExclusionTest {
     @Test
     void testTypeExclusion() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeType(
                         inPackage("org.jeasy.random.beans")
                                 .or(isInterface())
                                 .or(isAbstract())
                 );
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Foo foo = easyRandom.nextObject(Foo.class);
+        Foo foo = easilyRandomer.nextObject(Foo.class);
 
         // then
         assertThat(foo).isNotNull();

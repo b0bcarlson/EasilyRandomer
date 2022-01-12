@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.api;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 
 /**
  * A context object for a {@link Randomizer}.
@@ -35,7 +35,7 @@ import org.jeasy.random.EasyRandomParameters;
 public interface RandomizerContext {
 
     /**
-     * Return the target type (parameter of {@link EasyRandom#nextObject(Class)}).
+     * Return the target type (parameter of {@link EasilyRandomer#nextObject(Class)}).
      * @return target type
      */
     Class<?> getTargetType();
@@ -65,9 +65,9 @@ public interface RandomizerContext {
     int getCurrentRandomizationDepth();
 
     /**
-     * Return the currently used parameters by the enclosing {@link EasyRandom}.
+     * Return the currently used parameters by the enclosing {@link EasilyRandomer}.
      * @return currently used parameters
      */
-    EasyRandomParameters getParameters();
+    EasilyRandomerParameters getParameters();
 
 }

@@ -36,20 +36,20 @@ class RandomizerAnnotationTest {
 
     @Test
     void fieldAnnotatedWithRandomizerShouldBePopulatedWithValuesGeneratedByTheDeclaredRandomizer() {
-        Foo foo = new EasyRandom().nextObject(Foo.class);
+        Foo foo = new EasilyRandomer().nextObject(Foo.class);
         assertThat(foo.getName()).isEqualTo("foo");
     }
 
     @Test
     // https://github.com/j-easy/easy-random/issues/131
     void shouldThrowObjectGenerationExceptionWhenRandomizerUsedInRandomizerAnnotationHasNoDefaultConstructor() {
-        assertThatThrownBy(() -> new EasyRandom().nextObject(Bar.class)).isInstanceOf(ObjectCreationException.class);
+        assertThatThrownBy(() -> new EasilyRandomer().nextObject(Bar.class)).isInstanceOf(ObjectCreationException.class);
     }
 
 
     @Test
     void testRandomizerArgumentAsArray() {
-        Person person = new EasyRandom().nextObject(Person.class);
+        Person person = new EasilyRandomer().nextObject(Person.class);
 
         assertThat(person.getName()).isIn("foo", "bar");
         assertThat(person.getAge()).isIn(1, 2, 3);
@@ -60,10 +60,10 @@ class RandomizerAnnotationTest {
     void testRandomizerIsReused() {
         MyStringRandomizer.resetNumConstructorCalled();
 
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        Person firstRandomPerson = easyRandom.nextObject(Person.class);
-        Person secondRandomPerson = easyRandom.nextObject(Person.class);
+        Person firstRandomPerson = easilyRandomer.nextObject(Person.class);
+        Person secondRandomPerson = easilyRandomer.nextObject(Person.class);
 
         // If the randomizer would not be reused, then
 

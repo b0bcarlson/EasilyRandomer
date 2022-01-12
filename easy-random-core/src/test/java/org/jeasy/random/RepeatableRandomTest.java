@@ -60,12 +60,12 @@ public class RepeatableRandomTest {
     }
 
     private Object randomInstance(Class<?> type, long seed, int poolSize) {
-        EasyRandom easyRandom = new EasyRandom(new EasyRandomParameters()
+        EasilyRandomer easilyRandomer = new EasilyRandomer(new EasilyRandomerParameters()
                 .objectPoolSize(poolSize)
                 .seed(seed)
                 .stringLengthRange(3, 5)
                 .collectionSizeRange(3, 4));
-        return easyRandom.nextObject(type);
+        return easilyRandomer.nextObject(type);
     }
 
     public static class Pojo {

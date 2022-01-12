@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.api;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 
 import java.lang.reflect.Field;
 
@@ -38,9 +38,9 @@ public interface RandomizerRegistry {
     /**
      * Initialize the registry.
      *
-     * @param parameters of the {@link EasyRandom} instance being configured
+     * @param parameters of the {@link EasilyRandomer} instance being configured
      */
-    void init(EasyRandomParameters parameters);
+    void init(EasilyRandomerParameters parameters);
 
     /**
      * Retrieves a randomizer for the given field.

@@ -57,16 +57,16 @@ class MapPopulatorTest {
     @Mock
     private RandomizationContext context;
     @Mock
-    private EasyRandom easyRandom;
-    private EasyRandomParameters parameters;
+    private EasilyRandomer easilyRandomer;
+    private EasilyRandomerParameters parameters;
 
     private MapPopulator mapPopulator;
 
     @BeforeEach
     void setUp() {
-        parameters = new EasyRandomParameters().collectionSizeRange(SIZE, SIZE);
+        parameters = new EasilyRandomerParameters().collectionSizeRange(SIZE, SIZE);
         ObjectFactory objectFactory = new ObjenesisObjectFactory();
-        mapPopulator = new MapPopulator(easyRandom, objectFactory);
+        mapPopulator = new MapPopulator(easilyRandomer, objectFactory);
     }
 
     /*
@@ -103,7 +103,7 @@ class MapPopulatorTest {
     void typedInterfaceMapTypesMightBePopulated() throws Exception {
         // Given
         when(context.getParameters()).thenReturn(parameters);
-        when(easyRandom.doPopulateBean(String.class, context)).thenReturn(FOO, BAR);
+        when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn(FOO, BAR);
         Field field = Foo.class.getDeclaredField("typedMap");
 
         // When
@@ -117,7 +117,7 @@ class MapPopulatorTest {
     void typedConcreteMapTypesMightBePopulated() throws Exception {
         // Given
         when(context.getParameters()).thenReturn(parameters);
-        when(easyRandom.doPopulateBean(String.class, context)).thenReturn(FOO, BAR);
+        when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn(FOO, BAR);
         Field field = Foo.class.getDeclaredField("typedConcreteMap");
 
         // When
@@ -131,7 +131,7 @@ class MapPopulatorTest {
     void notAddNullKeysToMap() throws NoSuchFieldException {
         // Given
         when(context.getParameters()).thenReturn(parameters);
-        when(easyRandom.doPopulateBean(String.class, context)).thenReturn(null);
+        when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn(null);
         Field field = Foo.class.getDeclaredField("typedConcreteMap");
 
         // When
@@ -189,9 +189,9 @@ class MapPopulatorTest {
 
     @Test
     void rawMapInterfacesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final MapBean mapBean = easyRandom.nextObject(MapBean.class);
+        final MapBean mapBean = easilyRandomer.nextObject(MapBean.class);
 
         assertThat(mapBean).isNotNull();
 
@@ -204,9 +204,9 @@ class MapPopulatorTest {
 
     @Test
     void typedMapInterfacesShouldNotBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final MapBean mapBean = easyRandom.nextObject(MapBean.class);
+        final MapBean mapBean = easilyRandomer.nextObject(MapBean.class);
 
         assertThat(mapBean).isNotNull();
 
@@ -228,9 +228,9 @@ class MapPopulatorTest {
 
     @Test
     void rawMapClassesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final MapBean mapBean = easyRandom.nextObject(MapBean.class);
+        final MapBean mapBean = easilyRandomer.nextObject(MapBean.class);
 
         assertThat(mapBean).isNotNull();
 
@@ -245,9 +245,9 @@ class MapPopulatorTest {
 
     @Test
     void typedMapClassesShouldNotBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final MapBean mapBean = easyRandom.nextObject(MapBean.class);
+        final MapBean mapBean = easilyRandomer.nextObject(MapBean.class);
 
         assertThat(mapBean).isNotNull();
 
@@ -275,9 +275,9 @@ class MapPopulatorTest {
 
     @Test
     void wildcardTypedMapInterfacesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final WildCardMapBean wildCardMapBean = easyRandom.nextObject(WildCardMapBean.class);
+        final WildCardMapBean wildCardMapBean = easilyRandomer.nextObject(WildCardMapBean.class);
 
         assertThat(wildCardMapBean).isNotNull();
 
@@ -299,9 +299,9 @@ class MapPopulatorTest {
 
     @Test
     void wildcardTypedMapClassesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final WildCardMapBean wildCardMapBean = easyRandom.nextObject(WildCardMapBean.class);
+        final WildCardMapBean wildCardMapBean = easilyRandomer.nextObject(WildCardMapBean.class);
 
         assertThat(wildCardMapBean).isNotNull();
 
@@ -329,9 +329,9 @@ class MapPopulatorTest {
 
     @Test
     void compositeMapTypesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        CompositeMapBean compositeMapBean = easyRandom.nextObject(CompositeMapBean.class);
+        CompositeMapBean compositeMapBean = easilyRandomer.nextObject(CompositeMapBean.class);
 
         assertThat(compositeMapBean.getPersonToNicknames()).isEmpty();
         assertThat(compositeMapBean.getPersonToAccounts()).isEmpty();
@@ -340,9 +340,9 @@ class MapPopulatorTest {
 
     @Test
     void userDefinedMapTypeShouldBePopulated() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        CustomMap customMap = easyRandom.nextObject(CustomMap.class);
+        CustomMap customMap = easilyRandomer.nextObject(CustomMap.class);
 
         assertThat(customMap).isNotNull();
         assertThat(customMap.getName()).isNotNull();
@@ -350,9 +350,9 @@ class MapPopulatorTest {
 
     @Test
     void enumMapTypeShouldBePopulated() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        EnumMapBean enumMapBean = easyRandom.nextObject(EnumMapBean.class);
+        EnumMapBean enumMapBean = easilyRandomer.nextObject(EnumMapBean.class);
 
         assertThat(enumMapBean).isNotNull();
         assertThat(enumMapBean.getTypedEnumMap()).isNotNull();

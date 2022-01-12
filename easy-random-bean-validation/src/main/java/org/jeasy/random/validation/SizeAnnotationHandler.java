@@ -23,8 +23,8 @@
  */
 package org.jeasy.random.validation;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.jeasy.random.api.Randomizer;
 import org.jeasy.random.randomizers.range.IntegerRangeRandomizer;
 import org.jeasy.random.randomizers.text.StringRandomizer;
@@ -45,10 +45,10 @@ import static org.jeasy.random.util.ReflectionUtils.*;
 
 class SizeAnnotationHandler implements BeanValidationAnnotationHandler {
 
-    private EasyRandom easyRandom;
-    private EasyRandomParameters parameters;
+    private EasilyRandomer easilyRandomer;
+    private EasilyRandomerParameters parameters;
 
-    SizeAnnotationHandler(EasyRandomParameters parameters) {
+    SizeAnnotationHandler(EasilyRandomerParameters parameters) {
         this.parameters = parameters.copy();
     }
 
@@ -61,12 +61,12 @@ class SizeAnnotationHandler implements BeanValidationAnnotationHandler {
 
         final int min = sizeAnnotation.min();
         final int max = sizeAnnotation.max() == Integer.MAX_VALUE ? 255 : sizeAnnotation.max();
-        if (easyRandom == null) {
-            easyRandom = new EasyRandom(parameters);
+        if (easilyRandomer == null) {
+            easilyRandomer = new EasilyRandomer(parameters);
         }
 
         if (fieldType.equals(String.class)) {
-            return new StringRandomizer(parameters.getCharset(), min, max, easyRandom.nextLong());
+            return new StringRandomizer(parameters.getCharset(), min, max, easilyRandomer.nextLong());
         }
 
         // FIXME: There should be away to reuse code from ArrayPopulator/CollectionPopulator/MapPopulator *without* making them public
@@ -76,7 +76,7 @@ class SizeAnnotationHandler implements BeanValidationAnnotationHandler {
                 int randomSize = new IntegerRangeRandomizer(min, max, parameters.getSeed()).getRandomValue();
                 Object result = Array.newInstance(field.getType().getComponentType(), randomSize);
                 for (int i = 0; i < randomSize; i++) {
-                    Object randomElement = easyRandom.nextObject(fieldType.getComponentType());
+                    Object randomElement = easilyRandomer.nextObject(fieldType.getComponentType());
                     Array.set(result, i, randomElement);
                 }
                 return result;
@@ -99,7 +99,7 @@ class SizeAnnotationHandler implements BeanValidationAnnotationHandler {
                     Type type = parameterizedType.getActualTypeArguments()[0];
                     if (isPopulatable(type)) {
                         for (int i = 0; i < randomSize; i++) {
-                            Object item = easyRandom.nextObject((Class<?>) type);
+                            Object item = easilyRandomer.nextObject((Class<?>) type);
                             collection.add(item);
                         }
 
@@ -139,8 +139,8 @@ class SizeAnnotationHandler implements BeanValidationAnnotationHandler {
                     Type valueType = parameterizedType.getActualTypeArguments()[1];
                     if (isPopulatable(keyType) && isPopulatable(valueType)) {
                         for (int index = 0; index < randomSize; index++) {
-                            Object randomKey = easyRandom.nextObject((Class<?>) keyType);
-                            Object randomValue = easyRandom.nextObject((Class<?>) valueType);
+                            Object randomKey = easilyRandomer.nextObject((Class<?>) keyType);
+                            Object randomValue = easilyRandomer.nextObject((Class<?>) valueType);
                             if(randomKey != null) {
                                 map.put(randomKey, randomValue);
                             }

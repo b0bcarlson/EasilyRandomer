@@ -25,8 +25,8 @@ package org.jeasy.random.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.Test;
 
 import org.jeasy.random.beans.PersonTuple;
@@ -36,11 +36,11 @@ class MaxObjectPoolSizeTests {
     @Test
     void testMaxObjectPoolSize() {
         // Given
-        EasyRandomParameters parameters = new EasyRandomParameters().objectPoolSize(1);
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().objectPoolSize(1);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // When
-        PersonTuple persons = easyRandom.nextObject(PersonTuple.class);
+        PersonTuple persons = easilyRandomer.nextObject(PersonTuple.class);
 
         // Then
         assertThat(persons.left).isSameAs(persons.right);

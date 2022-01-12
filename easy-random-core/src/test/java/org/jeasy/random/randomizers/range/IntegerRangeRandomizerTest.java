@@ -27,8 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 
-import org.jeasy.random.EasyRandom;
-import org.jeasy.random.EasyRandomParameters;
+import org.jeasy.random.EasilyRandomer;
+import org.jeasy.random.EasilyRandomerParameters;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,29 +85,29 @@ class IntegerRangeRandomizerTest extends AbstractRangeRandomizerTest<Integer> {
 
     @Test
     void generatedValueShouldBeWithinSpecifiedRange_whenUsedToRandomizePrimitiveIntegerType() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(int.class, new IntegerRangeRandomizer(min, max));
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
-        int integer = easyRandom.nextObject(int.class);
+        int integer = easilyRandomer.nextObject(int.class);
         assertThat(integer).isBetween(min, max);
     }
 
     @Test
     void generatedValueShouldBeWithinSpecifiedRange_whenUsedToRandomizeWrapperIntegerType() {
-        EasyRandomParameters parameters = new EasyRandomParameters().randomize(Integer.class, new IntegerRangeRandomizer(min, max));
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().randomize(Integer.class, new IntegerRangeRandomizer(min, max));
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
-        Integer integer = easyRandom.nextObject(Integer.class);
+        Integer integer = easilyRandomer.nextObject(Integer.class);
         assertThat(integer).isBetween(min, max);
     }
 
     @Test
     void generatedValueShouldBeWithinSpecifiedRange_whenUsedToRandomizeNonIntegerType() {
-        EasyRandomParameters parameters = new EasyRandomParameters().randomize(Integer.class, new IntegerRangeRandomizer(min, max));
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().randomize(Integer.class, new IntegerRangeRandomizer(min, max));
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
-        Street street = easyRandom.nextObject(Street.class);
+        Street street = easilyRandomer.nextObject(Street.class);
         assertThat(street.getNumber()).isBetween(min, max);
     }
 

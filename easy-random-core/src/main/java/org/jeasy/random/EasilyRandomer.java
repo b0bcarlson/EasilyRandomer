@@ -40,9 +40,9 @@ import static org.jeasy.random.util.ReflectionUtils.*;
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public class EasyRandom extends Random {
+public class EasilyRandomer extends Random {
 
-    private final EasyRandomParameters parameters;
+    private final EasilyRandomerParameters parameters;
 
     private final FieldPopulator fieldPopulator;
 
@@ -57,25 +57,25 @@ public class EasyRandom extends Random {
     private final ExclusionPolicy exclusionPolicy;
 
     /**
-     * Create a new {@link EasyRandom} instance with default parameters.
+     * Create a new {@link EasilyRandomer} instance with default parameters.
      */
-    public EasyRandom() {
-        this(new EasyRandomParameters());
+    public EasilyRandomer() {
+        this(new EasilyRandomerParameters());
     }
 
     /**
-     * Create a new {@link EasyRandom} instance.
+     * Create a new {@link EasilyRandomer} instance.
      *
-     * @param easyRandomParameters randomization parameters
+     * @param easilyRandomerParameters randomization parameters
      */
-    public EasyRandom(final EasyRandomParameters easyRandomParameters) {
-        Objects.requireNonNull(easyRandomParameters, "Parameters must not be null");
-        super.setSeed(easyRandomParameters.getSeed());
-        LinkedHashSet<RandomizerRegistry> registries = setupRandomizerRegistries(easyRandomParameters);
-        RandomizerProvider customRandomizerProvider = easyRandomParameters.getRandomizerProvider();
+    public EasilyRandomer(final EasilyRandomerParameters easilyRandomerParameters) {
+        Objects.requireNonNull(easilyRandomerParameters, "Parameters must not be null");
+        super.setSeed(easilyRandomerParameters.getSeed());
+        LinkedHashSet<RandomizerRegistry> registries = setupRandomizerRegistries(easilyRandomerParameters);
+        RandomizerProvider customRandomizerProvider = easilyRandomerParameters.getRandomizerProvider();
         randomizerProvider = customRandomizerProvider == null ? new RegistriesRandomizerProvider() : customRandomizerProvider;
         randomizerProvider.setRandomizerRegistries(registries);
-        objectFactory = easyRandomParameters.getObjectFactory();
+        objectFactory = easilyRandomerParameters.getObjectFactory();
         arrayPopulator = new ArrayPopulator(this);
         CollectionPopulator collectionPopulator = new CollectionPopulator(this);
         MapPopulator mapPopulator = new MapPopulator(this, objectFactory);
@@ -84,8 +84,8 @@ public class EasyRandom extends Random {
         fieldPopulator = new FieldPopulator(this,
                 this.randomizerProvider, arrayPopulator,
                 collectionPopulator, mapPopulator, optionalPopulator);
-        exclusionPolicy = easyRandomParameters.getExclusionPolicy();
-        parameters = easyRandomParameters;
+        exclusionPolicy = easilyRandomerParameters.getExclusionPolicy();
+        parameters = easilyRandomerParameters;
     }
 
     /**
@@ -209,7 +209,7 @@ public class EasyRandom extends Random {
         fieldPopulator.populateField(result, field, context);
     }
 
-    private LinkedHashSet<RandomizerRegistry> setupRandomizerRegistries(EasyRandomParameters parameters) {
+    private LinkedHashSet<RandomizerRegistry> setupRandomizerRegistries(EasilyRandomerParameters parameters) {
         LinkedHashSet<RandomizerRegistry> registries = new LinkedHashSet<>();
         registries.add(parameters.getCustomRandomizerRegistry());
         registries.add(parameters.getExclusionRandomizerRegistry());

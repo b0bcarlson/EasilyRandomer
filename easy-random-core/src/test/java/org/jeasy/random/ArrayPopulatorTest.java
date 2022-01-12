@@ -46,19 +46,19 @@ class ArrayPopulatorTest {
     @Mock
     private RandomizationContext context;
     @Mock
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     private ArrayPopulator arrayPopulator;
 
     @BeforeEach
     void setUp() {
-        arrayPopulator = new ArrayPopulator(easyRandom);
+        arrayPopulator = new ArrayPopulator(easilyRandomer);
     }
 
     @Test
     void getRandomArray() {
-        when(context.getParameters()).thenReturn(new EasyRandomParameters().collectionSizeRange(INT, INT));
-        when(easyRandom.doPopulateBean(String.class, context)).thenReturn(STRING);
+        when(context.getParameters()).thenReturn(new EasilyRandomerParameters().collectionSizeRange(INT, INT));
+        when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn(STRING);
 
         String[] strings = (String[]) arrayPopulator.getRandomArray(String[].class, context);
 
@@ -71,27 +71,27 @@ class ArrayPopulatorTest {
 
     @Test
     void testArrayPopulation() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final String[] strings = easyRandom.nextObject(String[].class);
+        final String[] strings = easilyRandomer.nextObject(String[].class);
 
         assertThat(strings).isNotNull();
     }
 
     @Test
     void testPrimitiveArrayPopulation() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final int[] ints = easyRandom.nextObject(int[].class);
+        final int[] ints = easilyRandomer.nextObject(int[].class);
 
         assertThat(ints).isNotNull();
     }
 
     @Test
     void primitiveArraysShouldBeCorrectlyPopulated() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final ArrayBean bean = easyRandom.nextObject(ArrayBean.class);
+        final ArrayBean bean = easilyRandomer.nextObject(ArrayBean.class);
 
         // primitive types
         assertThat(toObjectArray(bean.getByteArray())).hasOnlyElementsOfType(Byte.class);
@@ -106,9 +106,9 @@ class ArrayPopulatorTest {
 
     @Test
     void wrapperTypeArraysShouldBeCorrectlyPopulated() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final ArrayBean bean = easyRandom.nextObject(ArrayBean.class);
+        final ArrayBean bean = easilyRandomer.nextObject(ArrayBean.class);
 
         // wrapper types
         assertThat(bean.getBytes()).hasOnlyElementsOfType(Byte.class);
@@ -123,9 +123,9 @@ class ArrayPopulatorTest {
 
     @Test
     void arraysWithCustomTypesShouldBeCorrectlyPopulated() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final ArrayBean bean = easyRandom.nextObject(ArrayBean.class);
+        final ArrayBean bean = easilyRandomer.nextObject(ArrayBean.class);
 
         // custom types
         assertThat(bean.getStrings()).doesNotContain(null, "");

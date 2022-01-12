@@ -31,14 +31,14 @@ import java.util.*;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Context object for a single call on {@link EasyRandom#nextObject(Class)}.
+ * Context object for a single call on {@link EasilyRandomer#nextObject(Class)}.
  * It contains a map acting as a cache of populated beans to avoid infinite recursion.
  *
  * @author Rémi Alvergnat (toilal.dev@gmail.com)
  */
 class RandomizationContext implements RandomizerContext {
 
-    private final EasyRandomParameters parameters;
+    private final EasilyRandomerParameters parameters;
 
     private final Map<Class<?>, List<Object>> populatedBeans;
 
@@ -50,7 +50,7 @@ class RandomizationContext implements RandomizerContext {
 
     private Object rootObject;
 
-    RandomizationContext(final Class<?> type, final EasyRandomParameters parameters) {
+    RandomizationContext(final Class<?> type, final EasilyRandomerParameters parameters) {
         this.type = type;
         populatedBeans = new IdentityHashMap<>();
         stack = new Stack<>();
@@ -144,7 +144,7 @@ class RandomizationContext implements RandomizerContext {
     }
 
     @Override
-    public EasyRandomParameters getParameters() {
+    public EasilyRandomerParameters getParameters() {
         return parameters;
     }
 }

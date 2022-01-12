@@ -42,12 +42,12 @@ import static org.jeasy.random.util.ReflectionUtils.*;
  */
 class MapPopulator {
 
-    private final EasyRandom easyRandom;
+    private final EasilyRandomer easilyRandomer;
 
     private final ObjectFactory objectFactory;
 
-    MapPopulator(final EasyRandom easyRandom, final ObjectFactory objectFactory) {
-        this.easyRandom = easyRandom;
+    MapPopulator(final EasilyRandomer easilyRandomer, final ObjectFactory objectFactory) {
+        this.easilyRandomer = easilyRandomer;
         this.objectFactory = objectFactory;
     }
 
@@ -84,8 +84,8 @@ class MapPopulator {
             Type valueType = parameterizedType.getActualTypeArguments()[1];
             if (isPopulatable(keyType) && isPopulatable(valueType)) {
                 for (int index = 0; index < randomSize; index++) {
-                    Object randomKey = easyRandom.doPopulateBean((Class<?>) keyType, context);
-                    Object randomValue = easyRandom.doPopulateBean((Class<?>) valueType, context);
+                    Object randomKey = easilyRandomer.doPopulateBean((Class<?>) keyType, context);
+                    Object randomValue = easilyRandomer.doPopulateBean((Class<?>) valueType, context);
                     if(randomKey != null) {
                         map.put(randomKey, randomValue);
                     }
@@ -95,8 +95,8 @@ class MapPopulator {
         return map;
     }
 
-    private int getRandomMapSize(EasyRandomParameters parameters) {
-        EasyRandomParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
+    private int getRandomMapSize(EasilyRandomerParameters parameters) {
+        EasilyRandomerParameters.Range<Integer> collectionSizeRange = parameters.getCollectionSizeRange();
         return new IntegerRangeRandomizer(collectionSizeRange.getMin(), collectionSizeRange.getMax(), parameters.getSeed()).getRandomValue();
     }
 

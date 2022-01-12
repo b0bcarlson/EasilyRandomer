@@ -45,22 +45,22 @@ import org.jeasy.random.beans.exclusion.C;
 @ExtendWith(MockitoExtension.class)
 class FieldExclusionTest {
 
-    private EasyRandom easyRandom;
+    private EasilyRandomer easilyRandomer;
 
     @BeforeEach
     void setUp() {
-        easyRandom = new EasyRandom();
+        easilyRandomer = new EasilyRandomer();
     }
 
     @Test
     void excludedFieldsShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("name"));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         //then
         assertThat(person).isNotNull();
@@ -70,12 +70,12 @@ class FieldExclusionTest {
     @Test
     void excludedFieldsUsingSkipRandomizerShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("name").and(ofType(String.class)).and(inClass(Human.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();
@@ -85,11 +85,11 @@ class FieldExclusionTest {
     @Test
     void excludedFieldsUsingFieldDefinitionShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters().excludeField(named("name"));
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().excludeField(named("name"));
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();
@@ -104,12 +104,12 @@ class FieldExclusionTest {
     @Test
     void excludedDottedFieldsShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("name").and(inClass(Street.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();
@@ -120,7 +120,7 @@ class FieldExclusionTest {
 
     @Test
     void fieldsExcludedWithAnnotationShouldNotBePopulated() {
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         assertThat(person).isNotNull();
         assertThat(person.getExcluded()).isNull();
@@ -130,11 +130,11 @@ class FieldExclusionTest {
     @SuppressWarnings("deprecation")
     void fieldsExcludedWithAnnotationViaFieldDefinitionShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters().excludeField(isAnnotatedWith(Deprecated.class));
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().excludeField(isAnnotatedWith(Deprecated.class));
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Website website = easyRandom.nextObject(Website.class);
+        Website website = easilyRandomer.nextObject(Website.class);
 
         // then
         assertThat(website).isNotNull();
@@ -144,11 +144,11 @@ class FieldExclusionTest {
     @Test
     void fieldsExcludedFromTypeViaFieldDefinitionShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters().excludeField(inClass(Address.class));
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().excludeField(inClass(Address.class));
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();
@@ -162,11 +162,11 @@ class FieldExclusionTest {
 
     @Test
     void testFirstLevelExclusion() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("b2").and(inClass(C.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        C c = easyRandom.nextObject(C.class);
+        C c = easilyRandomer.nextObject(C.class);
 
         assertThat(c).isNotNull();
 
@@ -185,7 +185,7 @@ class FieldExclusionTest {
 
     @Test
     void testSecondLevelExclusion() { // goal: exclude only b2.a2
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(ofType(A.class).and(inClass(B.class)), new ContextAwareRandomizer<A>() {
                     private RandomizerContext context;
                     @Override
@@ -198,11 +198,11 @@ class FieldExclusionTest {
                         if (context.getCurrentField().equals("b2.a2")) {
                             return null;
                         }
-                        return new EasyRandom().nextObject(A.class);
+                        return new EasilyRandomer().nextObject(A.class);
                     }
                 });
-        easyRandom = new EasyRandom(parameters);
-        C c = easyRandom.nextObject(C.class);
+        easilyRandomer = new EasilyRandomer(parameters);
+        C c = easilyRandomer.nextObject(C.class);
 
         assertThat(c).isNotNull();
 
@@ -225,7 +225,7 @@ class FieldExclusionTest {
 
     @Test
     void testThirdLevelExclusion() { // goal: exclude only b2.a2.s2
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(FieldPredicates.named("s2").and(inClass(A.class)), new ContextAwareRandomizer<String>() {
                     private RandomizerContext context;
                     @Override
@@ -238,11 +238,11 @@ class FieldExclusionTest {
                         if (context.getCurrentField().equals("b2.a2.s2")) {
                             return null;
                         }
-                        return new EasyRandom().nextObject(String.class);
+                        return new EasilyRandomer().nextObject(String.class);
                     }
                 });
-        easyRandom = new EasyRandom(parameters);
-        C c = easyRandom.nextObject(C.class);
+        easilyRandomer = new EasilyRandomer(parameters);
+        C c = easilyRandomer.nextObject(C.class);
 
         // B1 and its "children" must not be null
         assertThat(c.getB1()).isNotNull();
@@ -264,11 +264,11 @@ class FieldExclusionTest {
 
     @Test
     void testFirstLevelCollectionExclusion() {
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(FieldPredicates.named("b3").and(inClass(C.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        C c = easyRandom.nextObject(C.class);
+        C c = easilyRandomer.nextObject(C.class);
 
         assertThat(c).isNotNull();
 
@@ -296,7 +296,7 @@ class FieldExclusionTest {
 
     @Test
     void testSecondLevelCollectionExclusion() { // b3.a2 does not make sense, should be ignored
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(FieldPredicates.named("a2").and(inClass(B.class)), new ContextAwareRandomizer<A>() {
                     private RandomizerContext context;
                     @Override
@@ -309,12 +309,12 @@ class FieldExclusionTest {
                         if (context.getCurrentField().equals("b3.a2")) {
                             return null;
                         }
-                        return new EasyRandom().nextObject(A.class);
+                        return new EasilyRandomer().nextObject(A.class);
                     }
                 });
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
-        C c = easyRandom.nextObject(C.class);
+        C c = easilyRandomer.nextObject(C.class);
 
         assertThat(c).isNotNull();
 
@@ -343,12 +343,12 @@ class FieldExclusionTest {
     @Test
     void whenFieldIsExcluded_thenItsInlineInitializationShouldBeUsedAsIs() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("myList").and(ofType(List.class)).and(inClass(InlineInitializationBean.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        InlineInitializationBean bean = easyRandom.nextObject(InlineInitializationBean.class);
+        InlineInitializationBean bean = easilyRandomer.nextObject(InlineInitializationBean.class);
 
         // then
         assertThat(bean).isNotNull();
@@ -358,12 +358,12 @@ class FieldExclusionTest {
     @Test
     void whenFieldIsExcluded_thenItsInlineInitializationShouldBeUsedAsIs_EvenIfBeanHasNoPublicConstructor() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .excludeField(named("myList").and(ofType(List.class)).and(inClass(InlineInitializationBeanPrivateConstructor.class)));
-        easyRandom = new EasyRandom(parameters);
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        InlineInitializationBeanPrivateConstructor bean = easyRandom.nextObject(InlineInitializationBeanPrivateConstructor.class);
+        InlineInitializationBeanPrivateConstructor bean = easilyRandomer.nextObject(InlineInitializationBeanPrivateConstructor.class);
 
         // then
         assertThat(bean.getMyList()).isEmpty();
@@ -372,11 +372,11 @@ class FieldExclusionTest {
     @Test
     void fieldsExcludedWithOneModifierShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters().excludeField(hasModifiers(Modifier.TRANSIENT));
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().excludeField(hasModifiers(Modifier.TRANSIENT));
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();
@@ -386,11 +386,11 @@ class FieldExclusionTest {
     @Test
     void fieldsExcludedWithTwoModifiersShouldNotBePopulated() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters().excludeField(hasModifiers(Modifier.TRANSIENT | Modifier.PROTECTED));
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().excludeField(hasModifiers(Modifier.TRANSIENT | Modifier.PROTECTED));
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();
@@ -400,11 +400,11 @@ class FieldExclusionTest {
     @Test
     void fieldsExcludedWithTwoModifiersShouldBePopulatedIfOneModifierIsNotFit() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters().excludeField(hasModifiers(Modifier.TRANSIENT | Modifier.PUBLIC));
-        easyRandom = new EasyRandom(parameters);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().excludeField(hasModifiers(Modifier.TRANSIENT | Modifier.PUBLIC));
+        easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Person person = easyRandom.nextObject(Person.class);
+        Person person = easilyRandomer.nextObject(Person.class);
 
         // then
         assertThat(person).isNotNull();

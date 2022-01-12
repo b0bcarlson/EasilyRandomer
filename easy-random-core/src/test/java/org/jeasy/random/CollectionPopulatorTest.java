@@ -59,15 +59,15 @@ class CollectionPopulatorTest {
     @Mock
     private RandomizationContext context;
     @Mock
-    private EasyRandom easyRandom;
-    private EasyRandomParameters parameters;
+    private EasilyRandomer easilyRandomer;
+    private EasilyRandomerParameters parameters;
 
     private CollectionPopulator collectionPopulator;
 
     @BeforeEach
     void setUp() {
-        parameters = new EasyRandomParameters().collectionSizeRange(SIZE, SIZE);
-        collectionPopulator = new CollectionPopulator(easyRandom);
+        parameters = new EasilyRandomerParameters().collectionSizeRange(SIZE, SIZE);
+        collectionPopulator = new CollectionPopulator(easilyRandomer);
     }
 
     /*
@@ -103,7 +103,7 @@ class CollectionPopulatorTest {
     void typedInterfaceCollectionTypesMightBePopulated() throws Exception {
         // Given
         when(context.getParameters()).thenReturn(parameters);
-        when(easyRandom.doPopulateBean(String.class, context)).thenReturn(STRING);
+        when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn(STRING);
         Field field = Foo.class.getDeclaredField("typedInterfaceList");
 
         // When
@@ -118,7 +118,7 @@ class CollectionPopulatorTest {
     void typedConcreteCollectionTypesMightBePopulated() throws Exception {
         // Given
         when(context.getParameters()).thenReturn(parameters);
-        when(easyRandom.doPopulateBean(String.class, context)).thenReturn(STRING);
+        when(easilyRandomer.doPopulateBean(String.class, context)).thenReturn(STRING);
         Field field = Foo.class.getDeclaredField("typedConcreteList");
 
         // When
@@ -178,9 +178,9 @@ class CollectionPopulatorTest {
 
     @Test
     void rawCollectionInterfacesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final CollectionBean collectionsBean = easyRandom.nextObject(CollectionBean.class);
+        final CollectionBean collectionsBean = easilyRandomer.nextObject(CollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -198,9 +198,9 @@ class CollectionPopulatorTest {
 
     @Test
     void unboundedWildCardTypedCollectionInterfacesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final WildCardCollectionBean collectionsBean = easyRandom.nextObject(WildCardCollectionBean.class);
+        final WildCardCollectionBean collectionsBean = easilyRandomer.nextObject(WildCardCollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -218,9 +218,9 @@ class CollectionPopulatorTest {
 
     @Test
     void boundedWildCardTypedCollectionInterfacesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final WildCardCollectionBean collectionsBean = easyRandom.nextObject(WildCardCollectionBean.class);
+        final WildCardCollectionBean collectionsBean = easilyRandomer.nextObject(WildCardCollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -238,9 +238,9 @@ class CollectionPopulatorTest {
 
     @Test
     void typedCollectionInterfacesShouldNotBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final CollectionBean collectionsBean = easyRandom.nextObject(CollectionBean.class);
+        final CollectionBean collectionsBean = easilyRandomer.nextObject(CollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -258,9 +258,9 @@ class CollectionPopulatorTest {
 
     @Test
     void rawCollectionClassesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final CollectionBean collectionsBean = easyRandom.nextObject(CollectionBean.class);
+        final CollectionBean collectionsBean = easilyRandomer.nextObject(CollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -285,9 +285,9 @@ class CollectionPopulatorTest {
 
     @Test
     void unboundedWildCardTypedCollectionClassesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final WildCardCollectionBean collectionsBean = easyRandom.nextObject(WildCardCollectionBean.class);
+        final WildCardCollectionBean collectionsBean = easilyRandomer.nextObject(WildCardCollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -312,9 +312,9 @@ class CollectionPopulatorTest {
 
     @Test
     void boundedWildCardTypedCollectionClassesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final WildCardCollectionBean collectionsBean = easyRandom.nextObject(WildCardCollectionBean.class);
+        final WildCardCollectionBean collectionsBean = easilyRandomer.nextObject(WildCardCollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -339,9 +339,9 @@ class CollectionPopulatorTest {
 
     @Test
     void typedCollectionClassesShouldNoBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        final CollectionBean collectionsBean = easyRandom.nextObject(CollectionBean.class);
+        final CollectionBean collectionsBean = easilyRandomer.nextObject(CollectionBean.class);
 
         assertThat(collectionsBean).isNotNull();
 
@@ -366,9 +366,9 @@ class CollectionPopulatorTest {
 
     @Test
     void compositeCollectionTypesShouldBeEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        CompositeCollectionBean compositeCollectionBean = easyRandom.nextObject(CompositeCollectionBean.class);
+        CompositeCollectionBean compositeCollectionBean = easilyRandomer.nextObject(CompositeCollectionBean.class);
 
         assertThat(compositeCollectionBean.getListOfLists()).isEmpty();
         assertThat(compositeCollectionBean.getTypedListOfLists()).isEmpty();
@@ -380,55 +380,55 @@ class CollectionPopulatorTest {
 
     @Test
     void synchronousQueueTypeMustBeRejected() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        assertThatThrownBy(() -> easyRandom.nextObject(SynchronousQueueBean.class)).isInstanceOf(ObjectCreationException.class);
+        assertThatThrownBy(() -> easilyRandomer.nextObject(SynchronousQueueBean.class)).isInstanceOf(ObjectCreationException.class);
     }
 
     @Test
     void delayedQueueTypeMustBeRejected() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        assertThatThrownBy(() -> easyRandom.nextObject(DelayedQueueBean.class)).isInstanceOf(ObjectCreationException.class);
+        assertThatThrownBy(() -> easilyRandomer.nextObject(DelayedQueueBean.class)).isInstanceOf(ObjectCreationException.class);
     }
 
     @Test
     void rawInterfaceCollectionTypesMustBeGeneratedEmpty() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
-        List<?> list = easyRandom.nextObject(List.class);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
+        List<?> list = easilyRandomer.nextObject(List.class);
         assertThat(list).isEmpty();
     }
 
     @Test
     void rawConcreteCollectionTypesMustBeGeneratedEmpty() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
-        ArrayList<?> list = easyRandom.nextObject(ArrayList.class);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
+        ArrayList<?> list = easilyRandomer.nextObject(ArrayList.class);
         assertThat(list).isEmpty();
     }
 
     @Test
     void rawInterfaceMapTypesMustBeGeneratedEmpty() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
-        Map<?, ?> map = easyRandom.nextObject(Map.class);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
+        Map<?, ?> map = easilyRandomer.nextObject(Map.class);
         assertThat(map).isEmpty();
     }
 
     @Test
     void rawConcreteMapTypesMustBeGeneratedEmpty() {
-        EasyRandomParameters parameters = new EasyRandomParameters().scanClasspathForConcreteTypes(true);
-        easyRandom = new EasyRandom(parameters);
-        HashMap<?, ?> map = easyRandom.nextObject(HashMap.class);
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters().scanClasspathForConcreteTypes(true);
+        easilyRandomer = new EasilyRandomer(parameters);
+        HashMap<?, ?> map = easilyRandomer.nextObject(HashMap.class);
         assertThat(map).isEmpty();
     }
 
     @Test
     void userDefinedCollectionTypeShouldBePopulated() {
-        EasyRandom easyRandom = new EasyRandom();
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
 
-        CustomList customList = easyRandom.nextObject(CustomList.class);
+        CustomList customList = easilyRandomer.nextObject(CustomList.class);
 
         assertThat(customList).isNotNull();
         assertThat(customList.getName()).isNotNull();
@@ -436,8 +436,8 @@ class CollectionPopulatorTest {
 
     @Test
     void typeVariableCollectionTypesMustBeGeneratedEmpty() {
-        EasyRandom easyRandom = new EasyRandom();
-        TypeVariableCollectionBean<String, String> bean = easyRandom.nextObject(TypeVariableCollectionBean.class);
+        EasilyRandomer easilyRandomer = new EasilyRandomer();
+        TypeVariableCollectionBean<String, String> bean = easilyRandomer.nextObject(TypeVariableCollectionBean.class);
         assertThat(bean.getCollection()).isEmpty();
         assertThat(bean.getList()).isEmpty();
         assertThat(bean.getSet()).isEmpty();

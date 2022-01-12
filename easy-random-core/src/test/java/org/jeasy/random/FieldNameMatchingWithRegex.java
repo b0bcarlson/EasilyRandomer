@@ -109,14 +109,14 @@ public class FieldNameMatchingWithRegex {
     @Test
     void testFieldDefinitionWithNameAsRegexp() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(
                         named("name.*").and(ofType(String.class)),
                         () -> "foo");
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Foo foo = easyRandom.nextObject(Foo.class);
+        Foo foo = easilyRandomer.nextObject(Foo.class);
 
         // then
         assertThat(foo.getName1()).isEqualTo("foo");
@@ -132,14 +132,14 @@ public class FieldNameMatchingWithRegex {
     @Test
     void testFieldDefinitionWithNameNotAsRegexp() {
         // given
-        EasyRandomParameters parameters = new EasyRandomParameters()
+        EasilyRandomerParameters parameters = new EasilyRandomerParameters()
                 .randomize(
                         named("name").and(ofType(String.class)),
                         () -> "foo");
-        EasyRandom easyRandom = new EasyRandom(parameters);
+        EasilyRandomer easilyRandomer = new EasilyRandomer(parameters);
 
         // when
-        Foo foo = easyRandom.nextObject(Foo.class);
+        Foo foo = easilyRandomer.nextObject(Foo.class);
 
         // then
         assertThat(foo.getBar().getName()).isEqualTo("foo");
