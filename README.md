@@ -1,4 +1,6 @@
 # Easily Randomer
+(WIP)
+
 [Easy Random](https://github.com/j-easy/easy-random), but actually random.
 
 ## License
